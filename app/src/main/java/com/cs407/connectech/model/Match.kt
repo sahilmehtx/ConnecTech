@@ -1,4 +1,16 @@
+//Description: This file defines the structure for a match entity, used to represent the connection between a problem and a tech provider.
+//
+//Variables:
+//providerId: ID of the matched tech provider (String).
+//problemId: ID of the problem for which the match is made (String).
+//score: The calculated match score based on the matching algorithm (Double).
+
+//How to Use: The matching team can extend this file if more fields are required, such as feedback or acceptance status.
+
 package com.cs407.connectech.model
 
-class Match {
-}
+data class Match(
+    val providerId: String,
+    val problemId: String,
+    val score: Double // Match score (calculated by algorithm)
+)
