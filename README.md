@@ -112,8 +112,6 @@ ConnecTech is a sophisticated B2B matchmaking platform aimed at bridging the gap
 
 ---
 
-## **Getting Started**
-
 ### **Prerequisites**
 - **Android Studio**: Version 2022.3 or higher.
 - **Java**: OpenJDK 17 or higher.
