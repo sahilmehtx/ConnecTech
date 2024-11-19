@@ -1,51 +1,126 @@
 # **ConnecTech**
 
-ConnecTech is a B2B matchmaking platform designed to bridge the gap between small-to-mid-scale businesses and reliable tech service providers. The platform enables businesses to find vetted tech experts for their needs while offering tech providers an immediate pipeline of potential clients.
+ConnecTech is a sophisticated B2B matchmaking platform aimed at bridging the gap between businesses requiring technology solutions and tech service providers. Designed to offer transparency, efficiency, and trust, ConnecTech provides a seamless environment for businesses to find the right tech partners and for service providers to access a stream of clients aligned with their expertise.
+
+---
+
+## **Table of Contents**
+
+- [Key Features](#key-features)
+- [Tech Stack](#tech-stack)
+- [Architecture Overview](#architecture-overview)
+- [Project Structure](#project-structure)
+- [Getting Started](#getting-started)
+- [How to Use](#how-to-use)
+- [API Endpoints](#api-endpoints)
+- [Common Errors & Fixes](#common-errors--fixes)
+- [Contributors](#contributors)
+- [License](#license)
+- [Screenshots](#screenshots)
 
 ---
 
 ## **Key Features**
 
 ### **For Businesses**
-- **Hassle-Free Tech Partner Search**: Find trustworthy tech providers without wasting time.
-- **Vetted Service Providers**: Only qualified and reviewed providers are listed.
-- **Easy Communication & Negotiation**: Built-in tools for transparent communication and contract negotiation.
-- **Efficient Payments**: Secure payment transactions with no hidden fees.
+- **Effortless Tech Partner Search**: Find pre-vetted service providers tailored to your requirements.
+- **Transparent Communication**: Easily negotiate contracts and communicate requirements within the platform.
+- **Secure Payments**: Built-in payment integration ensures seamless transactions.
+- **Diverse Services**: Support for a range of services including app development, cybersecurity, cloud migration, and more.
 
-### **For Tech Providers**
-- **Marketing Made Easy**: Reduce acquisition costs with immediate access to businesses in need of services.
-- **Specialized Matches**: Get paired with projects that match your expertise and scale.
-- **Build Reputation**: Grow your client base and earn ratings from successful projects.
+### **For Service Providers**
+- **Instant Access to Clients**: Access business leads without heavy marketing costs.
+- **Optimized Matching**: Work on projects that align with your expertise and capacity.
+- **Reputation Building**: Gain ratings and visibility through successfully delivered projects.
 
 ---
 
 ## **Tech Stack**
 
 ### **Frontend**
-- **Kotlin**: Modern programming language for Android app development.
-- **XML**: For designing UI components with flexibility and precision.
+- **Kotlin**: Robust and modern language for Android app development.
+- **XML**: Layout designs ensuring a responsive and dynamic user interface.
+
+### **Backend Integration**
+- **Retrofit**: REST API integration with easy-to-use request models (`LoginRequest`, `RegisterRequest`, `ResetPasswordRequest`).
 
 ### **Architecture**
 - **MVVM (Model-View-ViewModel)**:
-  - **View**: Fragments for `Login`, `Register`, `Forgot Password`, etc.
-  - **ViewModel**: Handles LiveData and ensures UI is reactive.
-  - **Model**: Repositories managing API calls and business logic.
+  - **Model**: Business logic handled via repositories (e.g., `AuthRepository`, `ProblemRepository`).
+  - **ViewModel**: Manages UI-related data and handles LiveData for UI updates.
+  - **View**: Fragments for interactive user interfaces (`LoginFragment`, `RegisterFragment`, `ForgotPasswordFragment`).
 
-### **Networking**
-- **Retrofit**:
-  - Secure, fast, and efficient communication with backend APIs.
-  - Request models for `Login`, `Register`, and `Reset Password`.
+### **Security**
+- **Encryption Utilities**: Ensures secure storage and transfer of sensitive data.
+- **Pre-vetted Providers**: Providers undergo rigorous checks before being listed.
 
 ### **Dependencies**
-- **LiveData**: Observes changes in the data and updates the UI in real-time.
-- **View Binding**: Simplifies access to XML views in Kotlin code.
-
-### **Version Control**
-- **Git & GitHub**:
-  - Multiple branches for collaboration.
-  - Proper versioning and commit history tracking.
+- **LiveData**: Reactive data handling for dynamic UI updates.
+- **View Binding**: Simplifies XML view references, reducing boilerplate code.
 
 ---
+
+## **Architecture Overview**
+
+### **App Initialization**
+- `ConnecTechApp` initializes the `AppCompatActivity` and sets the main layout (`fragment_container`).
+- Navigation between fragments is managed using `FragmentManager`.
+
+### **Key Components**
+1. **Auth Module**:
+   - Handles authentication flows such as login, registration, and password reset.
+   - `AuthViewModel` interacts with `AuthRepository` to fetch data via API.
+2. **Matchmaking Module**:
+   - Matches businesses with tech providers based on project details and expertise.
+3. **UI Components**:
+   - `LoginFragment`, `RegisterFragment`, and `ForgotPasswordFragment` for user interaction.
+4. **Utilities**:
+   - **`EncryptionUtil`**: Ensures sensitive data is encrypted before storage or transfer.
+   - **`Constants`**: Centralized configuration and constant values.
+
+---
+
+## **Project Structure**
+
+### **Directories**
+- **`auth`**:
+  - Fragments for `Login`, `Register`, and `ForgotPassword`.
+  - `AuthViewModel` for managing authentication-related LiveData.
+- **`model`**:
+  - Data models (`User`, `Provider`, `Match`, `Problem`) representing the app's core entities.
+- **`network`**:
+  - **`ApiService`**: Defines API endpoints.
+  - **`RetrofitClient`**: Configures Retrofit for API communication.
+- **`repository`**:
+  - **`AuthRepository`**: Handles API calls for authentication.
+  - **`ProblemRepository`**: Manages problem submission and retrieval.
+  - **`MatchRepository`**: Implements matchmaking logic.
+- **`ui.main`**:
+  - Contains fragments for profile management, problem submissions, and best matches.
+- **`utils`**:
+  - **`EncryptionUtil`**: Provides encryption for sensitive data.
+  - **`Constants`**: Stores reusable constants.
+- **`viewmodel`**:
+  - Houses the ViewModels (`AuthViewModel`, `MatchViewModel`) for state management.
+
+### **Resource Files**
+- **Layouts**:
+  - `fragment_login.xml`, `fragment_register.xml`, `fragment_forgot_password.xml` for respective fragments.
+  - Custom designs such as `rounded_edittext.xml` for styled input fields.
+- **Drawables**:
+  - Icons, background images, and custom shapes.
+
+---
+
+## **Getting Started**
+
+### **Prerequisites**
+- **Android Studio**: Version 2022.3 or higher.
+- **Java**: OpenJDK 17 or higher.
+- **Gradle**: Version 8.7 or higher.
+- **Minimum SDK**: 24 (Android 7.0 Nougat).
+- **Target SDK**: 35 (Android 14).
+
 ### **Setup**
 1. Clone the repository:
    ```bash
