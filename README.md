@@ -10,13 +10,6 @@ ConnecTech is a sophisticated B2B matchmaking platform aimed at bridging the gap
 - [Tech Stack](#tech-stack)
 - [Architecture Overview](#architecture-overview)
 - [Project Structure](#project-structure)
-- [Getting Started](#getting-started)
-- [How to Use](#how-to-use)
-- [API Endpoints](#api-endpoints)
-- [Common Errors & Fixes](#common-errors--fixes)
-- [Contributors](#contributors)
-- [License](#license)
-- [Screenshots](#screenshots)
 
 ---
 
