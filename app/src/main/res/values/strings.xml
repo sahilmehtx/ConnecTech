@@ -1,3 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- App Name -->
     <string name="app_name">ConnecTech</string>
+
+    <!-- AuthRepository -->
+    <string name="login_title">Login</string>
+    <string name="username_hint">Enter your username</string>
+    <string name="password_hint">Enter your password</string>
+    <string name="login_button">Login</string>
+    <string name="logout_button">Logout</string>
+    <string name="login_error">Invalid username or password.</string>
+    <string name="authenticating">Authenticating...</string>
+
+    <!-- ProblemRepository -->
+    <string name="project_list_title">Your Projects</string>
+    <string name="add_project_button">Add Project</string>
+    <string name="project_placeholder">Enter project name</string>
+    <string name="no_projects_found">No projects available yet.</string>
+    <string name="fetching_projects">Loading your projects...</string>
+
+    <!-- MatchRepository -->
+    <string name="match_list_title">Tech Providers</string>
+    <string name="no_matches_found">No tech providers found for this project.</string>
+    <string name="fetching_matches">Looking for tech providers...</string>
+
 </resources>
