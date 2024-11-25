@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="?attr/selectableItemBackground">
+
+    <!-- Tech provider name -->
+    <TextView
+        android:id="@+id/providerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Provider Name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp" />
+
+    <!-- Tech provider rating -->
+    <TextView
+        android:id="@+id/providerRating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rating: 5.0"
+        android:textSize="16sp" />
+
+    <!-- Placeholder for additional details (e.g., project category, etc.) -->
+    <!-- add more TextViews or other UI components here as needed -->
+</LinearLayout>
+    >
