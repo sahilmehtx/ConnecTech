@@ -46,9 +46,30 @@
     <string name="options">Options</string>
     <string name="settings">Settings</string>
 
+
+    <!-- API Related Strings (Placeholder) -->
+    <string name="api_base_url">https://api.connectech.com/</string>
+
+    <!-- Profile Page -->
+    <string name="about_us">About Us</string>
+    <string name="about_us_description">ConnecTech connects businesses with trusted, pre-vetted tech service providers, making it easy to find the right partner for projects like software development, IT services, or system integration. Our platform ensures seamless collaboration, helping businesses efficiently match with providers that meet their specific needs, timelines, and budgets.</string>
+
+    <!-- Settings Page -->
+    <string name="your_profile">Your Profile</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="ongoing_contract">Ongoing Contract</string>
+    <string name="previous_contract">Previous Contract</string>
+    <string name="scanned_documents">Scanned Documents</string>
+    <string name="progress">Progress</string>
+    <string name="help_center">Help Center</string>
+    <string name="logout">Logout</string>
+</resources>
+
     <!-- Placeholder or Static Content -->
     <string name="provider_name">Provider Name</string>
     <string name="provider_rating">Provider Rating</string>
     <string name="authenticating">Authenticating...</string>
     <string name="logout_button">Logout</string>
 </resources>
+

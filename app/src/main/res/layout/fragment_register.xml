@@ -8,6 +8,45 @@
     android:background="@color/light_blue"
     tools:context=".auth.RegisterFragment">
 
+
+        <!-- Email Input -->
+        <EditText
+            android:id="@+id/emailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edittext_background"
+            android:textColor="@color/textColorPrimary"
+            android:textColorHint="@color/textColorHint" />
+
+        <!-- Password Input -->
+        <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edittext_background"
+            android:textColor="@color/textColorPrimary"
+            android:textColorHint="@color/textColorHint"
+            android:layout_marginTop="16dp" />
+
+        <!-- Confirm Password Input -->
+        <EditText
+            android:id="@+id/confirmPasswordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            android:padding="12dp"
+            android:background="@drawable/rounded_edittext_background"
+            android:textColor="@color/textColorPrimary"
+            android:textColorHint="@color/textColorHint"
+            android:layout_marginTop="16dp" />
+
     <!-- Title -->
     <TextView
         android:id="@+id/registerButton"
@@ -42,6 +81,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/registerButton" />
+
 
     <EditText
         android:id="@+id/passwordEditText"
