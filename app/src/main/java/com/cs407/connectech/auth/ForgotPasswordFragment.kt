@@ -25,6 +25,7 @@ class ForgotPasswordFragment : Fragment() {
     }
 
     private fun setupListeners() {
+        binding.emailEditText.text.toString().trim()
         binding.resetPasswordButton.setOnClickListener {
             val email = binding.emailEditText.text.toString().trim()
             if (email.isNotEmpty()) {
