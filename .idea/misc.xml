@@ -4,4 +4,8 @@
   <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="jbr-21" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+ 9248bd943e51e8ec7f79b72683d04fbbaca3cd3f
 </project>
