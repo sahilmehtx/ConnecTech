@@ -29,4 +29,7 @@
 
     <!-- API Related Strings (Placeholder) -->
     <string name="api_base_url">https://api.connectech.com/</string>
+    <string name="view_all_matches">View All Matches</string>
+    <string name="here_are_the_best_companies_matching_your_requirements">Here are the best companies matching your requirements:</string>
+    <string name="best_matches">Best Matches</string>
 </resources>
