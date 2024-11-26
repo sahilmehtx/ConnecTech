@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue"
-    tools:context=".ui.HomeFragment">
+    android:background="@color/light_blue"
+    tools:context=".ui.main.HomeFragment">
 
     <!-- Title -->
     <TextView

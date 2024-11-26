@@ -2,6 +2,7 @@ package com.connectech.app.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.cs407.connectech.model.Match
 import com.cs407.connectech.model.User
 import com.cs407.connectech.network.ApiService
 import com.cs407.connectech.network.requests.LoginRequest
@@ -11,27 +12,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 import java.lang.Exception
+import com.cs407.connectech.network.requests.SubmitProblemRequest
 
 /**
  * AuthRepository: Manages user authentication, session data, and API calls.
- *
- * Variables:
- * - _isAuthenticated: Internal MutableLiveData tracking the user's authentication state.
- * - isAuthenticated: Public LiveData exposing authentication state to observe in ViewModels.
- * - loggedInUser: Stores the username of the currently logged-in user.
  */
 class AuthRepository(private val apiService: ApiService) {
 
-    private val _isAuthenticated = MutableLiveData<Boolean>() // Tracks authentication state
-    val isAuthenticated: LiveData<Boolean> get() = _isAuthenticated // Public observer for authentication state
-
-    private var loggedInUser: String? = null // Stores the username of the logged-in user
+    private val _isAuthenticated = MutableLiveData<Boolean>()
+    val isAuthenticated: LiveData<Boolean> get() = _isAuthenticated
+    private var loggedInUser: String? = null
 
     /**
      * Handles user login using the API.
-     * @param email User's email.
-     * @param password User's password.
-     * @return A Result wrapping a User object on success or an error on failure.
      */
     suspend fun login(email: String, password: String): Result<User> {
         return withContext(Dispatchers.IO) {
@@ -39,7 +32,7 @@ class AuthRepository(private val apiService: ApiService) {
                 val response: Response<User> = apiService.login(LoginRequest(email, password))
                 if (response.isSuccessful) {
                     response.body()?.let { user ->
-                        loggedInUser = user.email // Update session data
+                        loggedInUser = user.email
                         _isAuthenticated.postValue(true)
                         Result.success(user)
                     } ?: Result.failure(Exception("Login response was null"))
@@ -53,11 +46,24 @@ class AuthRepository(private val apiService: ApiService) {
         }
     }
 
+    suspend fun submitProblem(problemDetails: String, category: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response =
+                    apiService.submitProblem(SubmitProblemRequest(problemDetails, category))
+                if (response.isSuccessful) {
+                    true
+                } else {
+                    throw Exception("Problem submission failed: ${response.message()}")
+                }
+            } catch (e: Exception) {
+                throw Exception("Error during problem submission: ${e.message}")
+            }
+        }
+    }
+
     /**
      * Handles user registration using the API.
-     * @param email User's email.
-     * @param password User's password.
-     * @return A Result wrapping a User object on success or an error on failure.
      */
     suspend fun register(email: String, password: String): Result<User> {
         return withContext(Dispatchers.IO) {
@@ -76,8 +82,6 @@ class AuthRepository(private val apiService: ApiService) {
 
     /**
      * Handles password reset using the API.
-     * @param email User's email.
-     * @return A Result wrapping a Void object on success or an error on failure.
      */
     suspend fun resetPassword(email: String): Result<Void?> {
         return withContext(Dispatchers.IO) {
@@ -95,6 +99,24 @@ class AuthRepository(private val apiService: ApiService) {
     }
 
     /**
+     * Fetches the best matches for the user.
+     */
+    suspend fun getBestMatches(): List<Match> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val response: Response<List<Match>> = apiService.fetchBestMatches()
+                if (response.isSuccessful) {
+                    response.body() ?: emptyList()
+                } else {
+                    throw Exception("Failed to fetch matches: ${response.message()}")
+                }
+            } catch (e: Exception) {
+                throw Exception("Error fetching matches: ${e.message}")
+            }
+        }
+    }
+
+    /**
      * Logs the user out and clears session data.
      */
     fun logout() {
@@ -104,7 +126,6 @@ class AuthRepository(private val apiService: ApiService) {
 
     /**
      * Returns the logged-in user's email.
-     * @return The email of the logged-in user, or null if no user is logged in.
      */
     fun getLoggedInUser(): String? {
         return loggedInUser

@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.cs407.connectech.databinding.FragmentLoginBinding
-import com.cs407.connectech.auth.AuthViewModel
+import AuthViewModel
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding

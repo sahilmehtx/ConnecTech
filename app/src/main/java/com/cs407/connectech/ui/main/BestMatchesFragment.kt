@@ -1,5 +1,6 @@
 package com.cs407.connectech.ui.main
 
+import AuthViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cs407.connectech.databinding.FragmentBestMatchesBinding
-import com.cs407.connectech.viewmodel.AuthViewModel  // Reuse existing ViewModel
 import com.cs407.connectech.ui.main.adapter.MatchAdapter  // Adapter to display match list
+//import com.cs407.connectech.auth.AuthViewModel
+
 
 class BestMatchesFragment : Fragment() {
 

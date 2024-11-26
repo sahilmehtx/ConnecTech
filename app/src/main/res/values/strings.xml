@@ -64,7 +64,6 @@
     <string name="progress">Progress</string>
     <string name="help_center">Help Center</string>
     <string name="logout">Logout</string>
-</resources>
 
     <!-- Placeholder or Static Content -->
     <string name="provider_name">Provider Name</string>

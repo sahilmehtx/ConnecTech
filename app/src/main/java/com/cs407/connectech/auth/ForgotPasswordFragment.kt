@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.cs407.connectech.databinding.FragmentForgotPasswordBinding
-import com.cs407.connectech.auth.AuthViewModel
+import AuthViewModel
 
 class ForgotPasswordFragment : Fragment() {
     private lateinit var binding: FragmentForgotPasswordBinding
