@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.connectech.app.repository.AuthRepository
 import com.cs407.connectech.model.User
+import com.connectech.app.repository.AuthRepository
 import com.cs407.connectech.network.ApiService
 import com.cs407.connectech.network.RetrofitClient
 import kotlinx.coroutines.launch
