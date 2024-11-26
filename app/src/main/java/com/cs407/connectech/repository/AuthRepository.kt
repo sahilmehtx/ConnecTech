@@ -1,5 +1,7 @@
 package com.connectech.app.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.cs407.connectech.model.User
 import com.cs407.connectech.network.ApiService
 import com.cs407.connectech.network.requests.LoginRequest
@@ -10,23 +12,53 @@ import kotlinx.coroutines.withContext
 import retrofit2.Response
 import java.lang.Exception
 
+/**
+ * AuthRepository: Manages user authentication, session data, and API calls.
+ *
+ * Variables:
+ * - _isAuthenticated: Internal MutableLiveData tracking the user's authentication state.
+ * - isAuthenticated: Public LiveData exposing authentication state to observe in ViewModels.
+ * - loggedInUser: Stores the username of the currently logged-in user.
+ */
 class AuthRepository(private val apiService: ApiService) {
 
+    private val _isAuthenticated = MutableLiveData<Boolean>() // Tracks authentication state
+    val isAuthenticated: LiveData<Boolean> get() = _isAuthenticated // Public observer for authentication state
+
+    private var loggedInUser: String? = null // Stores the username of the logged-in user
+
+    /**
+     * Handles user login using the API.
+     * @param email User's email.
+     * @param password User's password.
+     * @return A Result wrapping a User object on success or an error on failure.
+     */
     suspend fun login(email: String, password: String): Result<User> {
         return withContext(Dispatchers.IO) {
             try {
                 val response: Response<User> = apiService.login(LoginRequest(email, password))
                 if (response.isSuccessful) {
-                    Result.success(response.body()!!)
+                    response.body()?.let { user ->
+                        loggedInUser = user.email // Update session data
+                        _isAuthenticated.postValue(true)
+                        Result.success(user)
+                    } ?: Result.failure(Exception("Login response was null"))
                 } else {
                     Result.failure(Exception("Login failed: ${response.message()}"))
                 }
             } catch (e: Exception) {
+                _isAuthenticated.postValue(false)
                 Result.failure(e)
             }
         }
     }
 
+    /**
+     * Handles user registration using the API.
+     * @param email User's email.
+     * @param password User's password.
+     * @return A Result wrapping a User object on success or an error on failure.
+     */
     suspend fun register(email: String, password: String): Result<User> {
         return withContext(Dispatchers.IO) {
             try {
@@ -42,6 +74,11 @@ class AuthRepository(private val apiService: ApiService) {
         }
     }
 
+    /**
+     * Handles password reset using the API.
+     * @param email User's email.
+     * @return A Result wrapping a Void object on success or an error on failure.
+     */
     suspend fun resetPassword(email: String): Result<Void?> {
         return withContext(Dispatchers.IO) {
             try {
@@ -56,42 +93,6 @@ class AuthRepository(private val apiService: ApiService) {
             }
         }
     }
-}
-=======
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-
-/**
- * AuthRepository: Manages user authentication and session data.
- *
- * Variables:
- * - _isAuthenticated: Internal MutableLiveData tracking the user's authentication state.
- * - isAuthenticated: Public LiveData exposing authentication state to observe in ViewModels.
- * - loggedInUser: Stores the username of the currently logged-in user.
- */
-class AuthRepository {
-
-    private val _isAuthenticated = MutableLiveData<Boolean>() // Tracks authentication state
-    val isAuthenticated: LiveData<Boolean> get() = _isAuthenticated // Public observer for authentication state
-
-    private var loggedInUser: String? = null // Stores the username of the logged-in user
-
-    /**
-     * Simulates user login.
-     * @param username User's username.
-     * @param password User's password.
-     * @return True if authentication is successful, false otherwise.
-     */
-    fun login(username: String, password: String): Boolean {
-        // Mock authentication logic
-        if (username == "testUser" && password == "testPassword") {
-            loggedInUser = username
-            _isAuthenticated.value = true
-            return true
-        }
-        _isAuthenticated.value = false
-        return false
-    }
 
     /**
      * Logs the user out and clears session data.
@@ -102,7 +103,8 @@ class AuthRepository {
     }
 
     /**
-     * Returns the logged-in user.
+     * Returns the logged-in user's email.
+     * @return The email of the logged-in user, or null if no user is logged in.
      */
     fun getLoggedInUser(): String? {
         return loggedInUser
