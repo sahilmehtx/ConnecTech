@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.cs407.connectech.auth.AuthViewModel
 import com.cs407.connectech.databinding.FragmentProblemSubmissionBinding
 import com.cs407.connectech.viewmodel.AuthViewModel  // Existing ViewModel to use for lifecycle management
 
