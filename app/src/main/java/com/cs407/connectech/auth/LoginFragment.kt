@@ -9,16 +9,31 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.cs407.connectech.databinding.FragmentLoginBinding
 import AuthViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.connectech.app.repository.AuthRepository
+import com.cs407.connectech.network.RetrofitClient
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
-    private val authViewModel: AuthViewModel by viewModels()
+    //private val authViewModel: AuthViewModel by viewModels()
+    private lateinit var authViewModel: AuthViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentLoginBinding.inflate(inflater, container, false)
+
+        // Obtain ApiService from RetrofitClient
+        val apiService = RetrofitClient.apiService
+
+        // Initialize AuthRepository
+        val authRepository = AuthRepository(apiService)
+
+
+        // Initialize ViewModel using the factory
+        val factory = AuthViewModelFactory(authRepository)
+        authViewModel = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
         setupListeners()
         observeViewModel()
         return binding.root
