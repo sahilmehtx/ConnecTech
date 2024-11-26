@@ -67,7 +67,7 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:contentDescription="@string/search" /> <!--android:src="@drawable/ic_search"-->
+                android:contentDescription="@string/search_hint" /> <!--android:src="@drawable/ic_search"-->
 
             <EditText
                 android:id="@+id/search_input"
