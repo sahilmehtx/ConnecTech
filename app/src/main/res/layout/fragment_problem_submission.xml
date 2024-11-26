@@ -1,38 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
-
-    <!-- Input field for entering project details -->
-    <EditText
-        android:id="@+id/project_details_input"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter project details"
-        android:inputType="textMultiLine"
-        android:minHeight="100dp" />
-
-    <!-- Dropdown for category selection (e.g., AI/ML, Mobile App Development) -->
-    <Spinner
-        android:id="@+id/category_dropdown"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        />
-
-    <!-- Submit button for submitting project details -->
-    <Button
-        android:id="@+id/submit_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Submit" />
-</LinearLayout>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
@@ -113,8 +82,9 @@
             android:id="@+id/tag_chip_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:chipSpacing="8dp"
-            android:layout_marginBottom="16dp">
+            app:chipSpacing="8dp"
+            android:layout_marginBottom="16dp"
+            app:singleSelection="true">
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_ai_ml"
                 android:layout_width="wrap_content"
