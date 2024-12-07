@@ -57,4 +57,3 @@
         android:textColor="@color/white"
         android:backgroundTint="@color/purple_500" />
 </LinearLayout>
-

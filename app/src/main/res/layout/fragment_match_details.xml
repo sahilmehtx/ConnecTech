@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue"
-    tools:context=".ui.MatchDetailsFragment">
+    tools:context=".ui.main.MatchDetailsFragment">
 
     <!-- Title -->
     <TextView

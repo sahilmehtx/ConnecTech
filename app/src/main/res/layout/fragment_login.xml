@@ -8,12 +8,11 @@
     android:background="@color/light_blue"
     tools:context=".auth.LoginFragment">
 
-    <!-- Title -->
     <TextView
-        android:id="@+id/loginButton"
+        android:id="@+id/loginTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login_button"
+        android:text="@string/login_screen_title"
         android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="@android:color/black"
@@ -26,20 +25,13 @@
         android:id="@+id/emailEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/rounded_edittext_background"
         android:hint="@string/email_hint"
         android:inputType="textEmailAddress"
         android:padding="12dp"
-        android:textColor="@color/textColorPrimary"
-        android:textColorHint="@color/textColorHint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@id/loginTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginButton" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
     <EditText
         android:id="@+id/passwordEditText"
@@ -48,17 +40,21 @@
         android:hint="@string/password_hint"
         android:inputType="textPassword"
         android:padding="12dp"
-        android:background="@drawable/rounded_edittext_background"
-        android:textColor="@color/textColorPrimary"
-        android:textColorHint="@color/textColorHint"
         app:layout_constraintTop_toBottomOf="@id/emailEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp" />
+        android:layout_marginTop="16dp" />
 
-    <!-- Forgot Password Text -->
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_button"
+        app:layout_constraintTop_toBottomOf="@id/passwordEditText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
     <TextView
         android:id="@+id/forgotPasswordTextView"
         android:layout_width="wrap_content"
@@ -70,21 +66,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp" />
-
-    <!-- "Experience Magic" Button -->
-    <Button
-        android:id="@+id/magicButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:background="@android:color/transparent"
-        android:text="@string/magic_button"
-        android:textColor="@android:color/black"
-        android:textSize="20sp"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/forgotPasswordTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
