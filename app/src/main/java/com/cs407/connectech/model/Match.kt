@@ -10,7 +10,9 @@
 package com.cs407.connectech.model
 
 data class Match(
-    val providerId: String,
-    val problemId: String,
-    val score: Double // Match score (calculated by algorithm)
+    val id: String,
+    val name: String,
+    val rating: Double,
+    val category: String,
+    val location: String
 )
