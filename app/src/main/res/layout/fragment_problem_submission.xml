@@ -2,10 +2,12 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="@color/white">
+    android:background="@color/light_blue"
+    tools:context=".ui.main.HomeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,15 +16,17 @@
 
         <!-- Title -->
         <TextView
-            android:id="@+id/title_problem_submission"
+            android:id="@+id/tv_find_your_match"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Submit Your Project"
-            android:textSize="20sp"
+            android:text="Find Your Match"
+            android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="16dp" />
 
         <!-- Subtitle -->
         <TextView
@@ -39,7 +43,7 @@
             android:id="@+id/project_details_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter project details"
+            android:hint="Describe your project's needs..."
             android:inputType="textMultiLine"
             android:background="@drawable/edit_text_background"
             android:padding="12dp"
@@ -116,7 +120,7 @@
             android:id="@+id/submit_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Submit"
+            android:text="Analyze and Match"
             android:layout_marginTop="24dp"
             android:backgroundTint="@color/purple_500"
             android:textColor="@color/white"
@@ -125,3 +129,4 @@
             android:textSize="16sp" />
     </LinearLayout>
 </ScrollView>
+
