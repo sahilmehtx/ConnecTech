@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Title for the screen -->
+        <TextView
+            android:id="@+id/best_matches_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Top AI/ML Companies"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/black" />
+
+        <!-- Subtitle for the screen -->
+        <TextView
+            android:id="@+id/best_matches_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Here are 10 companies that excel in AI/ML"
+            android:textSize="14sp"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/gray"
+            android:layout_gravity="center_horizontal" />
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/gray"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Company 1 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:background="#EEEEEE"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1. NeuralWave Innovations"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email: contact@neuralwave.ai"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="2dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phone: +1 (222) 555-0101"
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="NeuralWave Innovations specializes in cutting-edge machine learning solutions for the healthcare and finance sectors. They excel in building scalable mobile applications and user-friendly web interfaces. With their AI-driven models, NeuralWave aims to streamline business processes and enhance data-driven decision-making."
+                android:textSize="14sp"
+                android:textColor="@color/black"
+                android:lines="4" />
+        </LinearLayout>
+
+        <!-- Add additional companies here following the same pattern -->
+
+    </LinearLayout>
+</ScrollView>

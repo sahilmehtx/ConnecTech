@@ -1,3 +1,4 @@
+// File: LoginFragment.kt
 package com.cs407.connectech.auth
 
 import android.os.Bundle
@@ -6,36 +7,37 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import com.cs407.connectech.databinding.FragmentLoginBinding
-import AuthViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.connectech.app.repository.AuthRepository
-import com.cs407.connectech.network.RetrofitClient
+import androidx.navigation.fragment.findNavController
+import com.cs407.connectech.R
+import com.cs407.connectech.databinding.FragmentLoginBinding
+import com.cs407.connectech.viewmodel.AuthViewModel
+import com.cs407.connectech.viewmodel.AuthViewModelFactory
+import com.cs407.connectech.repository.FakeAuthRepository
 
 class LoginFragment : Fragment() {
-    private lateinit var binding: FragmentLoginBinding
-    //private val authViewModel: AuthViewModel by viewModels()
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var authViewModel: AuthViewModel
+    private lateinit var authViewModelFactory: AuthViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        // Obtain ApiService from RetrofitClient
-        val apiService = RetrofitClient.apiService
+        // Initialize FakeAuthRepository
+        val fakeAuthRepository = FakeAuthRepository()
 
-        // Initialize AuthRepository
-        val authRepository = AuthRepository(apiService)
+        // Initialize ViewModel with Factory
+        authViewModelFactory = AuthViewModelFactory(fakeAuthRepository)
+        authViewModel = ViewModelProvider(this, authViewModelFactory).get(AuthViewModel::class.java)
 
-
-        // Initialize ViewModel using the factory
-        val factory = AuthViewModelFactory(authRepository)
-        authViewModel = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
         setupListeners()
-        observeViewModel()
+        observeLoginResult()
+
         return binding.root
     }
 
@@ -49,15 +51,26 @@ class LoginFragment : Fragment() {
                 Toast.makeText(context, "Please enter email and password", Toast.LENGTH_SHORT).show()
             }
         }
+
+        binding.forgotPasswordTextView.setOnClickListener {
+            Toast.makeText(context, "Forgot Password Clicked", Toast.LENGTH_SHORT).show()
+            // Implement forgot password logic here
+        }
     }
 
-    private fun observeViewModel() {
+    private fun observeLoginResult() {
         authViewModel.loginResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_loginFragment_to_problemSubmissionFragment)
             }.onFailure {
-                Toast.makeText(context, it.message ?: "Login failed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Login failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

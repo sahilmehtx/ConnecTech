@@ -48,13 +48,4 @@
         android:paddingBottom="16dp" />
 
     <!-- Footer section with an action button -->
-    <Button
-        android:id="@+id/view_all_matches_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="View All Matches"
-        android:layout_marginTop="8dp"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/purple_500" />
 </LinearLayout>
-

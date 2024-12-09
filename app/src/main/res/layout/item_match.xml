@@ -1,109 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="12dp"
-    android:background="?attr/selectableItemBackground"
-    android:elevation="2dp">
+    android:layout_margin="8dp"
+    card_view:cardCornerRadius="8dp"
+    card_view:cardElevation="4dp">
 
-    <!-- Header section with Provider Name and Rating -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <!-- Provider Name -->
+        <!-- Match Name -->
         <TextView
-            android:id="@+id/providerName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Provider Name"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@color/black" />
-
-        <!-- Rating with star icon -->
-        <LinearLayout
+            android:id="@+id/matchName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:text="Match Name"
+            android:textAppearance="?attr/textAppearanceHeadline6" />
 
-            <ImageView
-                android:id="@+id/ratingIcon"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:src="@drawable/ic_star"
-                android:layout_marginEnd="4dp"
-                app:tint="@color/gold" />
+        <!-- Match Rating -->
+        <TextView
+            android:id="@+id/matchRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rating: 4.5"
+            android:textAppearance="?attr/textAppearanceBody2" />
 
-            <TextView
-                android:id="@+id/providerRating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="4.5"
-                android:textSize="16sp"
-                android:textColor="@color/black" />
-        </LinearLayout>
+        <!-- Match Category -->
+        <TextView
+            android:id="@+id/matchCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category: AI/ML"
+            android:textAppearance="?attr/textAppearanceBody2" />
+
+        <!-- Match Location -->
+        <TextView
+            android:id="@+id/matchLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location: New York"
+            android:textAppearance="?attr/textAppearanceBody2" />
+
+        <!-- Match Email -->
+        <TextView
+            android:id="@+id/matchEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email: contact@techinnovators.com"
+            android:textAppearance="?attr/textAppearanceBody2" />
+
+        <!-- Match Phone -->
+        <TextView
+            android:id="@+id/matchPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone: 123-456-7890"
+            android:textAppearance="?attr/textAppearanceBody2" />
+
+        <!-- Match Description -->
+        <TextView
+            android:id="@+id/matchDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description: Leading AI and Machine Learning solutions."
+            android:textAppearance="?attr/textAppearanceBody2" />
+
     </LinearLayout>
 
-    <!-- Divider -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/gray"
-        android:layout_marginVertical="8dp" />
-
-    <!-- Additional provider details -->
-    <TextView
-        android:id="@+id/providerCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Category: AI/ML"
-        android:textSize="14sp"
-        android:layout_marginBottom="4dp"
-        android:textColor="@color/gray_dark" />
-
-    <TextView
-        android:id="@+id/providerLocation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Location: San Francisco, CA"
-        android:textSize="14sp"
-        android:layout_marginBottom="8dp"
-        android:textColor="@color/gray_dark" />
-
-    <!-- Action Buttons for Save and View Details -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end">
-
-        <Button
-            android:id="@+id/saveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Save"
-            android:paddingHorizontal="16dp"
-            android:backgroundTint="@color/purple_500"
-            android:textColor="@color/white"
-            android:layout_marginEnd="8dp" />
-
-        <Button
-            android:id="@+id/viewDetailsButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View Details"
-            android:paddingHorizontal="16dp"
-            android:backgroundTint="@color/blue_500"
-            android:textColor="@color/white" />
-    </LinearLayout>
-</LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.cs407.connectech.databinding.FragmentForgotPasswordBinding
-import AuthViewModel
+import com.cs407.connectech.viewmodel.AuthViewModel
 
 class ForgotPasswordFragment : Fragment() {
     private lateinit var binding: FragmentForgotPasswordBinding
@@ -25,6 +25,7 @@ class ForgotPasswordFragment : Fragment() {
     }
 
     private fun setupListeners() {
+        binding.emailEditText.text.toString().trim()
         binding.resetPasswordButton.setOnClickListener {
             val email = binding.emailEditText.text.toString().trim()
             if (email.isNotEmpty()) {

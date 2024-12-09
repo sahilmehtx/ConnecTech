@@ -14,10 +14,6 @@
 // Frontend developers can use this model to display problem details on the Problem Submission Screen and track statuses on the dashboard.
 //
 
-
-
-
-
 package com.cs407.connectech.model
 
 data class Problem(

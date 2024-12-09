@@ -2,44 +2,38 @@ package com.connectech.app.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.cs407.connectech.network.ApiService
-import com.cs407.connectech.network.requests.SubmitProblemRequest
 
 /**
  * ProblemRepository: Manages project data and operations.
  *
  * Variables:
- * - apiService: Instance of ApiService for API interactions.
  * - _projects: Internal MutableLiveData holding a list of projects.
  * - projects: Public LiveData exposing project data for observing in ViewModels.
+ * - mockProjects: A mock dataset containing predefined project names.
  */
-class ProblemRepository(private val apiService: ApiService) {
+class ProblemRepository {
 
     private val _projects = MutableLiveData<List<String>>() // Tracks list of projects
     val projects: LiveData<List<String>> get() = _projects // Public observer for project data
+
+    // Mock project data
+    private val mockProjects = listOf("Project A", "Project B", "Project C")
 
     /**
      * Fetches the list of projects.
      */
     fun fetchProjects() {
-        // Mock implementation (Replace with actual API call if needed)
-        _projects.value = listOf("Project A", "Project B", "Project C")
+        _projects.value = mockProjects
     }
 
     /**
-     * Submits a problem to the backend using the ApiService.
-     * @param problemDetails The details of the problem.
-     * @param category The category of the problem.
+     * Adds a new project (mock example).
+     * @param projectName The name of the new project.
      */
-    suspend fun submitProblem(problemDetails: String, category: String) {
-        try {
-            val response = apiService.submitProblem(SubmitProblemRequest(problemDetails, category))
-            if (!response.isSuccessful) {
-                throw Exception("Failed to submit problem")
-            }
-        } catch (e: Exception) {
-            // Handle error
-            throw e
-        }
+    fun addProject(projectName: String) {
+        val updatedProjects = _projects.value?.toMutableList() ?: mutableListOf()
+        updatedProjects.add(projectName)
+        _projects.value = updatedProjects
     }
 }
+
