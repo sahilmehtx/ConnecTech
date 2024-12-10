@@ -1,4 +1,3 @@
-// File: FakeAuthRepository.kt
 package com.cs407.connectech.repository
 
 import androidx.lifecycle.LiveData
@@ -17,6 +16,15 @@ class FakeAuthRepository : AuthRepository {
     val isAuthenticated: LiveData<Boolean> get() = _isAuthenticated
     private var loggedInUser: String? = null
 
+    // List of valid emails for login
+    private val validEmails = listOf(
+        "test@example.com",
+        "harsh.com",
+        "sahil.com",
+        "srijan.com",
+        "tanmay.com"
+    )
+
     /**
      * Simulates user login with hardcoded credentials.
      */
@@ -26,16 +34,16 @@ class FakeAuthRepository : AuthRepository {
                 // Simulate network delay
                 delay(1000)
 
-                // Hardcoded valid credentials
-                val validEmail = "test@example.com"
-                val validPassword = "password123"
+                // Hardcoded valid password
+                val validPassword = "123"
 
-                if (email == validEmail && password == validPassword) {
+                // Check if email and password are valid
+                if (email in validEmails && password == validPassword) {
                     val user = User(
-                        id = 1,
-                        name = "Test User",
+                        id = validEmails.indexOf(email) + 1, // Generate ID based on email index
+                        name = "User ${validEmails.indexOf(email) + 1}",
                         email = email,
-                        role = "user" // Provided 'role' parameter
+                        role = "user"
                     )
                     loggedInUser = user.email
                     _isAuthenticated.postValue(true)
@@ -62,10 +70,10 @@ class FakeAuthRepository : AuthRepository {
                 // Simple validation
                 if (email.contains("@") && password.length >= 6) {
                     val user = User(
-                        id = 2,
+                        id = validEmails.size + 1,
                         name = "New User",
                         email = email,
-                        role = "user" // Provided 'role' parameter
+                        role = "user"
                     )
                     Result.success(user)
                 } else {

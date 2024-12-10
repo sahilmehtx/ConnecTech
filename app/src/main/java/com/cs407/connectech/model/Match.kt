@@ -23,9 +23,12 @@ data class Match(
     val id: Int,
     val name: String,
     val rating: Double,
+    val city: String,
     val category: String,
     val location: String,
     val email: String,          // Added field
     val phone: String,          // Added field
     val description: String     // Added field
 )
+
+

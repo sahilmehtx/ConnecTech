@@ -20,9 +20,9 @@ class MatchViewModel(
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
 
-    fun fetchBestMatches(tag: String) {
+    fun fetchBestMatches(tag: String, category: String) {
         try {
-            val matches = fakeMatchRepository.getBestMatches(tag)  // Updated to use FakeMatchRepository
+            val matches = fakeMatchRepository.getBestMatches(tag, category)  // Updated to use FakeMatchRepository
             _bestMatches.value = matches
         } catch (e: Exception) {
             _error.value = e.message

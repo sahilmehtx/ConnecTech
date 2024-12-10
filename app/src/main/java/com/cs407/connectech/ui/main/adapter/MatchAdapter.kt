@@ -1,4 +1,3 @@
-// File: MatchAdapter.kt
 package com.cs407.connectech.ui.main.adapter
 
 import android.view.LayoutInflater
@@ -9,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cs407.connectech.databinding.ItemMatchBinding
 import com.cs407.connectech.model.Match
 
-class MatchAdapter : ListAdapter<Match, MatchAdapter.MatchViewHolder>(MatchDiffCallback()) {
+class MatchAdapter(private val onClick: (Match) -> Unit) : ListAdapter<Match, MatchAdapter.MatchViewHolder>(MatchDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolder {
         val binding = ItemMatchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -31,9 +30,8 @@ class MatchAdapter : ListAdapter<Match, MatchAdapter.MatchViewHolder>(MatchDiffC
             binding.matchPhone.text = "Phone: ${match.phone}"
             binding.matchDescription.text = match.description
 
-            // Handle item clicks if necessary
             binding.root.setOnClickListener {
-                // Implement navigation or other actions on item click
+                onClick(match)
             }
         }
     }

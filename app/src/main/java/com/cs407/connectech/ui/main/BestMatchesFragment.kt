@@ -1,4 +1,3 @@
-// File: BestMatchesFragment.kt
 package com.cs407.connectech.ui.main
 
 import android.os.Bundle
@@ -7,19 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.navArgs
 import com.cs407.connectech.databinding.FragmentBestMatchesBinding
 import com.cs407.connectech.model.Match
-import com.cs407.connectech.viewmodel.MatchViewModel
-import com.cs407.connectech.viewmodel.MatchViewModelFactory
 import com.cs407.connectech.repository.FakeMatchRepository
 import com.cs407.connectech.ui.main.adapter.MatchAdapter
-//import dagger.hilt.android.AndroidEntryPoint
-import androidx.navigation.fragment.navArgs
+import com.cs407.connectech.viewmodel.MatchViewModel
+import com.cs407.connectech.viewmodel.MatchViewModelFactory
 
-//@AndroidEntryPoint
 class BestMatchesFragment : Fragment() {
 
     private var _binding: FragmentBestMatchesBinding? = null
@@ -33,54 +30,59 @@ class BestMatchesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         _binding = FragmentBestMatchesBinding.inflate(inflater, container, false)
 
-        // Initialize ViewModel with Factory (Hilt will provide dependencies if properly set up)
-        matchViewModel = ViewModelProvider(this, MatchViewModelFactory(FakeMatchRepository()))
-            .get(MatchViewModel::class.java)
+        matchViewModel = ViewModelProvider(
+            this,
+            MatchViewModelFactory(FakeMatchRepository())
+        ).get(MatchViewModel::class.java)
 
         setupRecyclerView()
         observeData()
 
-        // Fetch best matches based on the selected tag
-        val selectedTag = args.SELECTEDTAG
-        matchViewModel.fetchBestMatches(selectedTag)
+        // Fetch best matches based on the selected tag and category
+        val selectedTag = args.selectedTag
+        val selectedCategory = args.selectedCategory
+        matchViewModel.fetchBestMatches(selectedTag, selectedCategory)
 
         return binding.root
     }
 
     private fun setupRecyclerView() {
-        // Initialize RecyclerView adapter
-        matchAdapter = MatchAdapter()
+        // Initialize RecyclerView adapter with a click listener
+        matchAdapter = MatchAdapter { selectedMatch ->
+            // Navigate to CompanySelectedFragment with the selected company's ID
+            val action = BestMatchesFragmentDirections
+                .actionBestMatchesFragmentToCompanySelectedFragment(companyId = selectedMatch.id)
+            findNavController().navigate(action)
+        }
+
         binding.bestMatchesRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = matchAdapter  // Set adapter to RecyclerView
+            adapter = matchAdapter
         }
     }
 
     private fun observeData() {
-        // Observe the best matches LiveData from ViewModel
         matchViewModel.bestMatches.observe(viewLifecycleOwner) { matches ->
             if (matches.isNotEmpty()) {
-                matchAdapter.submitList(matches)  // Update adapter with match data
+                matchAdapter.submitList(matches)
                 updateUI(matches)
             } else {
                 Toast.makeText(context, "No matches found for the selected category.", Toast.LENGTH_SHORT).show()
-                // Optionally, navigate back or show a placeholder
+                // Optionally navigate back or show placeholder UI
             }
         }
 
-        // Observe error LiveData from ViewModel
         matchViewModel.error.observe(viewLifecycleOwner) { errorMessage ->
             Toast.makeText(context, "Error: $errorMessage", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun updateUI(matches: List<Match>) {
-        // Update the title and subtitle based on the selected tag
-        binding.bestMatchesTitle.text = "Top ${args.SELECTEDTAG} Companies"
-        binding.bestMatchesSubtitle.text = "Here are ${matches.size} companies that excel in ${args.SELECTEDTAG}"
+        binding.bestMatchesTitle.text = "Top ${args.selectedTag} Companies"
+        binding.bestMatchesSubtitle.text = "Here are ${matches.size} companies that excel in ${args.selectedTag}"
     }
 
     override fun onDestroyView() {

@@ -81,7 +81,10 @@
         android:name="com.cs407.connectech.ui.main.BestMatchesFragment"
         android:label="Best Matches">
         <argument
-            android:name="SELECTED_TAG"
+            android:name="selectedTag"
+            app:argType="string" />
+        <argument
+            android:name="selectedCategory"
             app:argType="string" />
         <action
             android:id="@+id/action_bestMatchesFragment_to_companySelectedFragment"
@@ -93,6 +96,9 @@
         android:id="@+id/companySelectedFragment"
         android:name="com.cs407.connectech.ui.main.CompanySelectedFragment"
         android:label="Company Selected">
+        <argument
+            android:name="companyId"
+            app:argType="integer" />
         <!-- No navigation action here; dialog is shown in this fragment -->
     </fragment>
 </navigation>

@@ -46,7 +46,7 @@ class ProblemSubmissionFragment : Fragment() {
 
     private fun setupUI() {
         // 1. Populate the Spinner (categoryDropdown) with predefined categories
-        val categories = listOf("AI/ML", "Data Science", "Web Development", "Mobile Development")
+        val categories = listOf("Large Business", "Medium Business", "Small Business", "Enterprise", "Private Project", "Startup", "Other", "None")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.categoryDropdown.adapter = adapter
@@ -110,7 +110,7 @@ class ProblemSubmissionFragment : Fragment() {
 
             result.onSuccess {
                 // Navigate to BestMatchesFragment with the selected tag using Safe Args
-                val action = ProblemSubmissionFragmentDirections.actionProblemSubmissionFragmentToBestMatchesFragment(selectedTag)
+                val action = ProblemSubmissionFragmentDirections.actionProblemSubmissionFragmentToBestMatchesFragment(selectedTag, category)
                 findNavController().navigate(action)
 
                 // Provide user feedback
