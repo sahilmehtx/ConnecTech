@@ -65,10 +65,6 @@ class SettingsFragment : Fragment() {
             Toast.makeText(requireContext(), "Progress Clicked", Toast.LENGTH_SHORT).show()
         }
 
-        binding.btnHelpCenter.setOnClickListener {
-            Toast.makeText(requireContext(), "Help Center Clicked", Toast.LENGTH_SHORT).show()
-        }
-
         binding.btnLogout.setOnClickListener {
             handleLogout()
         }
