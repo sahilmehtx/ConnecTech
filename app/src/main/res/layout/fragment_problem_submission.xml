@@ -23,9 +23,6 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="16dp" />
 
         <!-- Subtitle -->
@@ -52,7 +49,7 @@
             android:textColor="@color/black"
             android:textSize="16sp" />
 
-        <!-- Dropdown for category selection (using a Material Spinner) -->
+        <!-- Dropdown for category selection -->
         <TextView
             android:id="@+id/category_label"
             android:layout_width="match_parent"
@@ -70,6 +67,14 @@
             android:background="@drawable/spinner_background"
             android:layout_marginBottom="16dp"
             android:spinnerMode="dropdown" />
+
+        <!-- Progress Indicator -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center" />
 
         <!-- Chip Group for Additional Category Selection -->
         <TextView
@@ -89,6 +94,7 @@
             app:chipSpacing="8dp"
             android:layout_marginBottom="16dp"
             app:singleSelection="true">
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_ai_ml"
                 android:layout_width="wrap_content"
@@ -97,6 +103,7 @@
                 android:checkable="true"
                 android:textColor="@color/black"
                 style="@style/Widget.MaterialComponents.Chip.Choice" />
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_mobile_dev"
                 android:layout_width="wrap_content"
@@ -105,11 +112,40 @@
                 android:checkable="true"
                 android:textColor="@color/black"
                 style="@style/Widget.MaterialComponents.Chip.Choice" />
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_web_dev"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Web Dev"
+                android:checkable="true"
+                android:textColor="@color/black"
+                style="@style/Widget.MaterialComponents.Chip.Choice" />
+
+            <!-- New Chips -->
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_cloud"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cloud Computing"
+                android:checkable="true"
+                android:textColor="@color/black"
+                style="@style/Widget.MaterialComponents.Chip.Choice" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_blockchain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Blockchain"
+                android:checkable="true"
+                android:textColor="@color/black"
+                style="@style/Widget.MaterialComponents.Chip.Choice" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_cybersecurity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cybersecurity"
                 android:checkable="true"
                 android:textColor="@color/black"
                 style="@style/Widget.MaterialComponents.Chip.Choice" />
@@ -129,4 +165,3 @@
             android:textSize="16sp" />
     </LinearLayout>
 </ScrollView>
-

@@ -11,7 +11,7 @@
 package com.cs407.connectech.model
 
 data class User(
-    val id: String,
+    val id: Int,
     val name: String,
     val email: String,
     val role: String, // e.g., "Business", "Tech Provider"

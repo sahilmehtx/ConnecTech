@@ -1,20 +1,18 @@
 package com.cs407.connectech.ui.main.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.cs407.connectech.R
-import com.cs407.connectech.model.Match  // Model representing each tech provider
+import com.cs407.connectech.databinding.ItemMatchBinding
+import com.cs407.connectech.model.Match
 
-class MatchAdapter : ListAdapter<Match, MatchAdapter.MatchViewHolder>(MatchDiffCallback()) {
+class MatchAdapter(private val onClick: (Match) -> Unit) : ListAdapter<Match, MatchAdapter.MatchViewHolder>(MatchDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_match, parent, false)
-        return MatchViewHolder(view)
+        val binding = ItemMatchBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MatchViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MatchViewHolder, position: Int) {
@@ -22,18 +20,22 @@ class MatchAdapter : ListAdapter<Match, MatchAdapter.MatchViewHolder>(MatchDiffC
         holder.bind(match)
     }
 
-    class MatchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val providerName: TextView = itemView.findViewById(R.id.providerName)
-        private val providerRating: TextView = itemView.findViewById(R.id.providerRating)
-
-        // Bind the data to the view elements
+    inner class MatchViewHolder(private val binding: ItemMatchBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(match: Match) {
-            providerName.text = match.name  // Name of the tech provider
-            providerRating.text = "Rating: ${match.rating}"  // Rating of the provider
+            binding.matchName.text = match.name
+            binding.matchRating.text = "Rating: ${match.rating}"
+            binding.matchCategory.text = "Category: ${match.category}"
+            binding.matchLocation.text = "Location: ${match.location}"
+            binding.matchEmail.text = "Email: ${match.email}"
+            binding.matchPhone.text = "Phone: ${match.phone}"
+            binding.matchDescription.text = match.description
+
+            binding.root.setOnClickListener {
+                onClick(match)
+            }
         }
     }
 
-    // DiffUtil for efficiently updating the RecyclerView
     class MatchDiffCallback : DiffUtil.ItemCallback<Match>() {
         override fun areItemsTheSame(oldItem: Match, newItem: Match): Boolean {
             return oldItem.id == newItem.id
