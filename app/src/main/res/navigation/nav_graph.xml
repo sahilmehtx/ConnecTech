@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/landingPage">
@@ -9,7 +10,6 @@
         android:id="@+id/landingPage"
         android:name="com.cs407.connectech.ui.main.LandingPage"
         android:label="Landing Page">
-        <!-- Navigation actions from Landing Page -->
         <action
             android:id="@+id/action_landingPage_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -59,9 +59,10 @@
         android:id="@+id/registerFragment"
         android:name="com.cs407.connectech.auth.RegisterFragment"
         android:label="Register">
+        <!-- After registering, go to loginFragment so user can login with new credentials -->
         <action
-            android:id="@+id/action_registerFragment_to_problemSubmissionFragment"
-            app:destination="@id/problemSubmissionFragment" />
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <!-- Problem Submission Fragment -->
@@ -71,8 +72,7 @@
         android:label="Problem Submission">
         <action
             android:id="@+id/action_problemSubmissionFragment_to_bestMatchesFragment"
-            app:destination="@id/bestMatchesFragment"
-         />
+            app:destination="@id/bestMatchesFragment" />
     </fragment>
 
     <!-- Best Matches Fragment -->
@@ -99,6 +99,25 @@
         <argument
             android:name="companyId"
             app:argType="integer" />
-        <!-- No navigation action here; dialog is shown in this fragment -->
     </fragment>
+
+    <!-- Home Fragment -->
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.cs407.connectech.ui.main.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_problem_submission" />
+
+    <!-- Inbox Fragment -->
+    <fragment
+        android:id="@+id/inboxFragment"
+        android:name="com.cs407.connectech.inbox.InboxFragment"
+        android:label="Inbox" />
+
+    <!-- Selected Companies Fragment (Ensure this matches your actual fragment class) -->
+    <fragment
+        android:id="@+id/selectedCompaniesFragment"
+        android:name="com.cs407.connectech.ui.main.CompanySelectedFragment"
+        android:label="My Companies" />
+
 </navigation>

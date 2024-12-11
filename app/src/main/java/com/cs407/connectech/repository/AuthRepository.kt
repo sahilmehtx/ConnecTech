@@ -1,7 +1,5 @@
-// File: AuthRepository.kt
 package com.cs407.connectech.repository
 
-import androidx.lifecycle.LiveData
 import com.cs407.connectech.model.User
 
 /**
