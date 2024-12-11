@@ -2,9 +2,17 @@
 package com.cs407.connectech
 
 import android.app.Application
-//import dagger.hilt.android.HiltAndroidApp
-
+import androidx.room.Room
+import com.cs407.connectech.data.AppDatabase
 
 class MyApplication : Application() {
-    // You can override lifecycle methods if needed
+    val database: AppDatabase by lazy {
+        Room.databaseBuilder(
+            this,
+            AppDatabase::class.java,
+            "app_db"
+        )
+            .fallbackToDestructiveMigration()
+            .build()
+    }
 }

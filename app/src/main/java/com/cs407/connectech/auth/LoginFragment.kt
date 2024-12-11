@@ -1,39 +1,36 @@
-// File: LoginFragment.kt
 package com.cs407.connectech.auth
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.cs407.connectech.MyApplication
 import com.cs407.connectech.R
 import com.cs407.connectech.databinding.FragmentLoginBinding
+import com.cs407.connectech.repository.FakeAuthRepository
 import com.cs407.connectech.viewmodel.AuthViewModel
 import com.cs407.connectech.viewmodel.AuthViewModelFactory
-import com.cs407.connectech.repository.FakeAuthRepository
 
 class LoginFragment : Fragment() {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var authViewModel: AuthViewModel
-    private lateinit var authViewModelFactory: AuthViewModelFactory
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        // Initialize FakeAuthRepository
-        val fakeAuthRepository = FakeAuthRepository()
-
-        // Initialize ViewModel with Factory
-        authViewModelFactory = AuthViewModelFactory(fakeAuthRepository)
-        authViewModel = ViewModelProvider(this, authViewModelFactory).get(AuthViewModel::class.java)
+        // Get the shared database instance from MyApplication
+        val appDatabase = (requireContext().applicationContext as MyApplication).database
+        val authRepo = FakeAuthRepository(appDatabase.userDao())
+        val factory = AuthViewModelFactory(authRepo)
+        authViewModel = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
 
         setupListeners()
         observeLoginResult()
@@ -48,23 +45,22 @@ class LoginFragment : Fragment() {
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 authViewModel.login(email, password)
             } else {
-                Toast.makeText(context, "Please enter email and password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Please enter email and password", Toast.LENGTH_SHORT).show()
             }
         }
 
         binding.forgotPasswordTextView.setOnClickListener {
-            Toast.makeText(context, "Forgot Password Clicked", Toast.LENGTH_SHORT).show()
-            // Implement forgot password logic here
+            findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
         }
     }
 
     private fun observeLoginResult() {
         authViewModel.loginResult.observe(viewLifecycleOwner) { result ->
             result.onSuccess {
-                Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Login successful!", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_loginFragment_to_problemSubmissionFragment)
             }.onFailure {
-                Toast.makeText(context, "Login failed: ${it.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Login failed: ${it.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }

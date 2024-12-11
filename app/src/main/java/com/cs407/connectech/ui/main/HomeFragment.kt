@@ -8,19 +8,19 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.cs407.connectech.ConnecTechApp
-import com.cs407.connectech.databinding.FragmentHomeBinding
+import com.cs407.connectech.databinding.FragmentProblemSubmissionBinding
 import com.cs407.connectech.ui.main.adapter.MatchAdapter
 
 class HomeFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentProblemSubmissionBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentProblemSubmissionBinding.inflate(inflater, container, false)
         return binding.root
     }
 
