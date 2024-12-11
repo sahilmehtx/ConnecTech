@@ -3,14 +3,8 @@ package com.cs407.connectech
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.cs407.connectech.ui.main.HomeFragment
-import com.cs407.connectech.auth.LoginFragment
-import com.cs407.connectech.auth.RegisterFragment
-import com.cs407.connectech.ui.main.LandingPage
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ConnecTechApp : AppCompatActivity() {
@@ -31,7 +25,10 @@ class ConnecTechApp : AppCompatActivity() {
         // Add listener to handle destination changes and manage bottom navigation visibility
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.loginFragment, R.id.registerFragment, R.id.landingPage -> {
+                R.id.loginFragment,
+                R.id.registerFragment,
+                R.id.landingPage,
+                R.id.forgotPasswordFragment -> { // Add forgotPasswordFragment here
                     // Hide BottomNavigationView for specific fragments
                     bottomNav.visibility = View.GONE
                 }
@@ -55,4 +52,3 @@ class ConnecTechApp : AppCompatActivity() {
         }
     }
 }
-
