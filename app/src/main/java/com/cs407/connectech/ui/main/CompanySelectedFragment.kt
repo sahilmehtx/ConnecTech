@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.cs407.connectech.databinding.FragmentCompanySelectedBinding
 import com.cs407.connectech.model.Match
+import com.cs407.connectech.repository.CompanyListRepository
 import com.cs407.connectech.repository.FakeMatchRepository
 
 class CompanySelectedFragment : Fragment() {
@@ -47,19 +48,20 @@ class CompanySelectedFragment : Fragment() {
 
     private fun fetchCompanyDetails(companyId: Int): Match {
         // Retrieve the company details from the repository
-        // Ensure you have a method in FakeMatchRepository to fetch by ID
         val repository = FakeMatchRepository()
         return repository.getCompanyById(companyId)
     }
 
     private fun showAlertDialog() {
         AlertDialog.Builder(requireContext())
-            .setTitle("Notification Sent")
-            .setMessage("The company has been notified about your selection.")
+            .setTitle("Partner Selected!")
+            .setMessage("This partner has been added to your list!")
             .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()
-                // Optionally navigate somewhere else after notification
-                // For example, navigate back to BestMatchesFragment:
+                val match = fetchCompanyDetails(args.companyId)
+                CompanyListRepository.addCompany(match)
+
+                // Navigate back
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }
             .create()

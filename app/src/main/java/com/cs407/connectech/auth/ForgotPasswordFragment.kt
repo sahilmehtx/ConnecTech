@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.cs407.connectech.MyApplication
 import com.cs407.connectech.R
 import com.cs407.connectech.databinding.FragmentForgotPasswordBinding
 import com.cs407.connectech.repository.FakeAuthRepository
@@ -31,11 +32,10 @@ class ForgotPasswordFragment : Fragment() {
     ): View {
         _binding = FragmentForgotPasswordBinding.inflate(inflater, container, false)
 
-        val fakeAuthRepository = FakeAuthRepository()
-
-        // Use AuthViewModelFactory to provide AuthRepository to AuthViewModel
-        val authViewModelFactory = AuthViewModelFactory(fakeAuthRepository)
-        authViewModel = ViewModelProvider(this, authViewModelFactory).get(AuthViewModel::class.java)
+        val appDatabase = (requireContext().applicationContext as MyApplication).database
+        val authRepo = FakeAuthRepository(appDatabase.userDao())
+        val factory = AuthViewModelFactory(authRepo)
+        authViewModel = ViewModelProvider(this, factory).get(AuthViewModel::class.java)
 
         setupListeners()
         observeViewModel()

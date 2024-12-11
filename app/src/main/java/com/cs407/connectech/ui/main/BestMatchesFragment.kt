@@ -50,9 +50,7 @@ class BestMatchesFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        // Initialize RecyclerView adapter with a click listener
         matchAdapter = MatchAdapter { selectedMatch ->
-            // Navigate to CompanySelectedFragment with the selected company's ID
             val action = BestMatchesFragmentDirections
                 .actionBestMatchesFragmentToCompanySelectedFragment(companyId = selectedMatch.id)
             findNavController().navigate(action)
