@@ -50,8 +50,8 @@
         android:name="com.cs407.connectech.auth.ForgotPasswordFragment"
         android:label="Forgot Password">
         <action
-            android:id="@+id/action_forgotPasswordFragment_to_problemSubmissionFragment"
-            app:destination="@id/problemSubmissionFragment" />
+            android:id="@+id/action_forgotPasswordFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
     </fragment>
 
     <!-- Register Fragment -->
@@ -98,7 +98,8 @@
         android:label="Company Selected">
         <argument
             android:name="companyId"
-            app:argType="integer" />
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 
     <!-- Home Fragment -->
@@ -114,10 +115,6 @@
         android:name="com.cs407.connectech.inbox.InboxFragment"
         android:label="Inbox" />
 
-    <!-- Selected Companies Fragment (Ensure this matches your actual fragment class) -->
-    <fragment
-        android:id="@+id/selectedCompaniesFragment"
-        android:name="com.cs407.connectech.ui.main.CompanySelectedFragment"
-        android:label="My Companies" />
+    <!-- Selected Companies Fragment (If not needed, remove this entirely) -->
 
 </navigation>

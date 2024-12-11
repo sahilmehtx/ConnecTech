@@ -47,7 +47,6 @@ class CompanySelectedFragment : Fragment() {
 
     private fun fetchCompanyDetails(companyId: Int): Match {
         // Retrieve the company details from the repository
-        // Ensure you have a method in FakeMatchRepository to fetch by ID
         val repository = FakeMatchRepository()
         return repository.getCompanyById(companyId)
     }
@@ -58,8 +57,6 @@ class CompanySelectedFragment : Fragment() {
             .setMessage("The company has been notified about your selection.")
             .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()
-                // Optionally navigate somewhere else after notification
-                // For example, navigate back to BestMatchesFragment:
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }
             .create()
