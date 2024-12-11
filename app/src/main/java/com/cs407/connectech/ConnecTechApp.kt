@@ -1,33 +1,30 @@
 package com.cs407.connectech
 
 import android.os.Bundle
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import com.cs407.connectech.ui.main.HomeFragment
 import com.cs407.connectech.auth.LoginFragment
 import com.cs407.connectech.auth.RegisterFragment
+import com.cs407.connectech.ui.main.LandingPage
 
 class ConnecTechApp : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_container)
+        setContentView(R.layout.activity_main)  // Updated to activity_main.xml
 
-        val loginButton: Button = findViewById(R.id.login_button)
-        val createAccountButton: Button = findViewById(R.id.create_account_button)
-
-        loginButton.setOnClickListener {
-            navigateToFragment(LoginFragment())
-        }
-
-        createAccountButton.setOnClickListener {
-            navigateToFragment(RegisterFragment())
+        if (savedInstanceState == null) {
+            // Load the HomeFragment initially
+           // navigateToFragment(landingPage())
         }
     }
 
-    fun navigateToFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
-            .commit()
+
+    override fun onBackPressed() {
+        val navController = findNavController(R.id.nav_host_fragment)
+        if (!navController.navigateUp()) {
+            super.onBackPressed()
+        }
     }
 }
