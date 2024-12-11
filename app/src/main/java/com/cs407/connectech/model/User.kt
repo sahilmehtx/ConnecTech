@@ -9,5 +9,6 @@ data class User(
     val name: String,
     val password: String,
     val role: String = "user",
-    val rating: Float? = null
+    val rating: Float? = null,
+    var is_logged_in: Boolean = false
 )

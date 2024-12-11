@@ -12,7 +12,8 @@ class MyApplication : Application() {
             AppDatabase::class.java,
             "app_db"
         )
-            .fallbackToDestructiveMigration()
+            // Remove fallbackToDestructiveMigration to prevent data loss
+            .addMigrations(AppDatabase.MIGRATION_1_2) // Use migration defined in AppDatabase
             .build()
     }
 }

@@ -47,8 +47,16 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setupUI() {
-        binding.etName.setText("John Doe")
-        binding.etEmail.setText("john.doe@example.com")
+
+        // Observe the current user's email
+        authViewModel.currentUserEmail.observe(viewLifecycleOwner) { email ->
+            binding.etEmail.setText(email)
+        }
+
+        // Fetch the email when the UI is set up
+        authViewModel.fetchCurrentUserEmail()
+
+        //binding.etEmail.setText("john.doe@example.com")
 
         binding.btnOngoingContract.setOnClickListener {
             Toast.makeText(requireContext(), "Ongoing Contract Clicked", Toast.LENGTH_SHORT).show()

@@ -32,14 +32,6 @@
                     android:textColor="@color/black" />
 
                 <EditText
-                    android:id="@+id/etName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/name"
-                    android:padding="10dp"
-                    android:background="@drawable/rounded_edittext_background" />
-
-                <EditText
                     android:id="@+id/etEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -53,7 +45,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginTop="16dp"
-                    android:src="@drawable/profile_placeholder"
+                    android:src="@drawable/ic_profileimage"
                     android:background="@drawable/circular_image_background"
                     android:scaleType="centerCrop" />
 
