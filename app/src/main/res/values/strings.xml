@@ -70,4 +70,14 @@
     <string name="provider_rating">Provider Rating</string>
     <string name="authenticating">Authenticating...</string>
     <string name="logout_button">Logout</string>
+    <string name="change_password">Change Password</string>
+    <string name="change_password_button">Change Password Button</string>
+
+    <string name="rating_format">Rating: %d</string>
+    <string name="category_format">Category: %s</string>
+    <string name="location_format">Location: %s</string>
+    <string name="sector_format">Sector: %s</string>
+    <string name="market_cap_format">Market Cap: %s</string>
+    <string name="stock_symbol_format">Stock Symbol: %s</string>
+
 </resources>

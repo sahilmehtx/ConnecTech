@@ -18,10 +18,7 @@ class CompanyListFragment : Fragment() {
     private var _binding: FragmentCompanyListBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View {
         _binding = FragmentCompanyListBinding.inflate(inflater, container, false)
         setupRecyclerView()
         return binding.root
@@ -34,7 +31,6 @@ class CompanyListFragment : Fragment() {
             },
             onNotifyClicked = { company ->
                 notifyCompany(company)
-                //Toast.makeText(requireContext(), "Notify clicked for ${company.name}", Toast.LENGTH_SHORT).show()
             }
         )
 
@@ -62,8 +58,9 @@ class CompanyListFragment : Fragment() {
     }
 
     private fun notifyCompany(company: Match) {
-        //findNavController().navigate(R.id.action_companyListFragment_to_inboxFragment)
-
+        Toast.makeText(requireContext(), "Notify clicked for ${company.name}", Toast.LENGTH_SHORT).show()
+        // Optionally navigate to another fragment like inbox if required
+        // findNavController().navigate(R.id.action_companyListFragment_to_inboxFragment)
     }
 
     override fun onDestroyView() {

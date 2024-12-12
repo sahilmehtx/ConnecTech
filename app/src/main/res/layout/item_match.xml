@@ -70,6 +70,27 @@
             android:text="Description: Leading AI and Machine Learning solutions."
             android:textAppearance="?attr/textAppearanceBody2" />
 
+        <TextView
+            android:id="@+id/matchSector"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sector: Technology"
+            android:textAppearance="?attr/textAppearanceBody2" />
+
+        <TextView
+            android:id="@+id/matchMarketCap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Market Cap: \$1B"
+            android:textAppearance="?attr/textAppearanceBody2" />
+
+        <TextView
+            android:id="@+id/matchStockSymbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stock Symbol: GOOG"
+            android:textAppearance="?attr/textAppearanceBody2" />
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

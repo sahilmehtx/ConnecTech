@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.cs407.connectech.databinding.FragmentCompanySelectedBinding
 import com.cs407.connectech.model.Match
@@ -20,23 +21,34 @@ class CompanySelectedFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCompanySelectedBinding.inflate(inflater, container, false)
 
+        // Get companyId from Safe Args
         val companyId = args.companyId
+
+        // Fetch company details from repository
         val match = fetchCompanyDetails(companyId)
 
-        // Populate UI with company details
-        binding.companyName.text = match.name
-        binding.companyDetails.text = """
-            Rating: ${match.rating}
-            Location: ${match.location}
-            Email: ${match.email}
-            Phone: ${match.phone}
-            
-            ${match.description}
-        """.trimIndent()
+        // Check if match is found
+        if (match != null) {
+            // Populate UI with company details
+            binding.companyName.text = match.name
+            binding.companyDetails.text = """
+                Ranking: ${match.ranking}
+                Name: ${match.name}
+                Market Cap: ${match.marketCap}
+                Stock Symbol: ${match.stockSymbol}
+                Country: ${match.country}
+                Sector: ${match.sector}
+                Industry: ${match.industry}
+            """.trimIndent()
+        } else {
+            // Handle case where company details are not found
+            binding.companyName.text = "Company Not Found"
+            binding.companyDetails.text = "Could not find details for this company."
+        }
 
         // Set up the "Select Partner" button
         binding.selectPartnerButton.setOnClickListener {
@@ -46,9 +58,8 @@ class CompanySelectedFragment : Fragment() {
         return binding.root
     }
 
-    private fun fetchCompanyDetails(companyId: Int): Match {
-        // Retrieve the company details from the repository
-        val repository = FakeMatchRepository()
+    private fun fetchCompanyDetails(companyId: Int): Match? {
+        val repository = FakeMatchRepository(requireContext())
         return repository.getCompanyById(companyId)
     }
 
@@ -59,7 +70,9 @@ class CompanySelectedFragment : Fragment() {
             .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()
                 val match = fetchCompanyDetails(args.companyId)
-                CompanyListRepository.addCompany(match)
+                if (match != null) {
+                    CompanyListRepository.addCompany(match)
+                }
 
                 // Navigate back
                 requireActivity().onBackPressedDispatcher.onBackPressed()

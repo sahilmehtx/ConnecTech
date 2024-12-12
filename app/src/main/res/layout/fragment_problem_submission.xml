@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Title -->
         <TextView
             android:id="@+id/tv_find_your_match"
             android:layout_width="wrap_content"
@@ -25,7 +24,6 @@
             android:textColor="@color/black"
             android:layout_marginTop="16dp" />
 
-        <!-- Subtitle -->
         <TextView
             android:id="@+id/subtitle_problem_submission"
             android:layout_width="match_parent"
@@ -35,7 +33,6 @@
             android:textColor="@color/gray"
             android:layout_marginBottom="16dp" />
 
-        <!-- Input field for entering project details -->
         <EditText
             android:id="@+id/project_details_input"
             android:layout_width="match_parent"
@@ -49,7 +46,6 @@
             android:textColor="@color/black"
             android:textSize="16sp" />
 
-        <!-- Dropdown for category selection -->
         <TextView
             android:id="@+id/category_label"
             android:layout_width="match_parent"
@@ -68,7 +64,6 @@
             android:layout_marginBottom="16dp"
             android:spinnerMode="dropdown" />
 
-        <!-- Progress Indicator -->
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
@@ -76,7 +71,6 @@
             android:visibility="gone"
             android:layout_gravity="center" />
 
-        <!-- Chip Group for Additional Category Selection -->
         <TextView
             android:id="@+id/subcategory_label"
             android:layout_width="match_parent"
@@ -93,65 +87,8 @@
             android:layout_height="wrap_content"
             app:chipSpacing="8dp"
             android:layout_marginBottom="16dp"
-            app:singleSelection="true">
+            app:singleSelection="true"/>
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_ai_ml"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="AI/ML"
-                android:checkable="true"
-                android:textColor="@color/black"
-                style="@style/Widget.MaterialComponents.Chip.Choice" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_mobile_dev"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mobile Dev"
-                android:checkable="true"
-                android:textColor="@color/black"
-                style="@style/Widget.MaterialComponents.Chip.Choice" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_web_dev"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Web Dev"
-                android:checkable="true"
-                android:textColor="@color/black"
-                style="@style/Widget.MaterialComponents.Chip.Choice" />
-
-            <!-- New Chips -->
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_cloud"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cloud Computing"
-                android:checkable="true"
-                android:textColor="@color/black"
-                style="@style/Widget.MaterialComponents.Chip.Choice" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_blockchain"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Blockchain"
-                android:checkable="true"
-                android:textColor="@color/black"
-                style="@style/Widget.MaterialComponents.Chip.Choice" />
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_cybersecurity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Cybersecurity"
-                android:checkable="true"
-                android:textColor="@color/black"
-                style="@style/Widget.MaterialComponents.Chip.Choice" />
-        </com.google.android.material.chip.ChipGroup>
-
-        <!-- Submit button -->
         <Button
             android:id="@+id/submit_button"
             android:layout_width="match_parent"

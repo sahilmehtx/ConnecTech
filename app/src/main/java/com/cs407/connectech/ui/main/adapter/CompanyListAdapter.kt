@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.cs407.connectech.databinding.ItemCompanyListBinding
 import com.cs407.connectech.model.Match
 
@@ -23,28 +22,31 @@ class CompanyListAdapter(
         holder.bind(company)
     }
 
-    inner class CompanyListViewHolder(private val binding: ItemCompanyListBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(company: Match) {
-            binding.matchName.text = company.name
-            binding.matchRating.text = "Rating: ${company.rating}"
-            binding.matchCategory.text = "Category: ${company.category}"
-            binding.matchLocation.text = "Location: ${company.location}"
-            binding.matchEmail.text = "Email: ${company.email}"
-            binding.matchPhone.text = "Phone: ${company.phone}"
-            binding.matchDescription.text = company.description
+    inner class CompanyListViewHolder(private val binding: ItemCompanyListBinding) :
+        androidx.recyclerview.widget.RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(match: Match) {
+            binding.matchName.text = "Name: ${match.name}"
+            binding.matchRating.text = "Ranking: ${match.ranking}"
+            binding.matchCategory.text = "Category: ${match.industry}"
+            binding.matchLocation.text = "Location: ${match.country}"
+            binding.matchSector.text = "Sector: ${match.sector}"
+            binding.matchMarketCap.text = "Market Cap: ${match.marketCap}"
+            binding.matchStockSymbol.text = "Stock Symbol: ${match.stockSymbol}"
 
             binding.deleteButton.setOnClickListener {
-                onDeleteClicked(company)
+                onDeleteClicked(match)
             }
+
             binding.notifyButton.setOnClickListener {
-                onNotifyClicked(company)
+                onNotifyClicked(match)
             }
         }
     }
 
     class MatchDiffCallback : DiffUtil.ItemCallback<Match>() {
         override fun areItemsTheSame(oldItem: Match, newItem: Match): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.ranking == newItem.ranking && oldItem.name == newItem.name
         }
 
         override fun areContentsTheSame(oldItem: Match, newItem: Match): Boolean {

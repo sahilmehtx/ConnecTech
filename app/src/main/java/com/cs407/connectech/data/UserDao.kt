@@ -21,4 +21,16 @@ interface UserDao {
 
     @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
     suspend fun getUserByEmail(email: String): User?
+
+    @Query("SELECT * FROM users WHERE is_logged_in = 1 LIMIT 1")
+    suspend fun getCurrentUser(): User?
+
+    @Query("UPDATE users SET is_logged_in = 0 WHERE is_logged_in = 1")
+    suspend fun logoutAllUsers()
+
+    @Query("UPDATE users SET is_logged_in = 1 WHERE email = :email")
+    suspend fun setLoggedIn(email: String)
+
+    @Query("DELETE FROM users")
+    suspend fun deleteAllUsers()
 }

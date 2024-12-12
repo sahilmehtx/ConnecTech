@@ -1,4 +1,4 @@
-// File: MatchViewModel.kt
+// MatchViewModel.kt
 package com.cs407.connectech.viewmodel
 
 import androidx.lifecycle.LiveData
@@ -6,13 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.cs407.connectech.model.Match
 import com.cs407.connectech.repository.FakeMatchRepository
-//import dagger.hilt.android.lifecycle.HiltViewModel
-//import javax.inject.Inject
 
-//@HiltViewModel
-class MatchViewModel(
-    private val fakeMatchRepository: FakeMatchRepository  // Changed from MatchRepository to FakeMatchRepository
-) : ViewModel() {
+class MatchViewModel(private val fakeMatchRepository: FakeMatchRepository) : ViewModel() {
 
     private val _bestMatches = MutableLiveData<List<Match>>()
     val bestMatches: LiveData<List<Match>> get() = _bestMatches
@@ -22,7 +17,7 @@ class MatchViewModel(
 
     fun fetchBestMatches(tag: String, category: String) {
         try {
-            val matches = fakeMatchRepository.getBestMatches(tag, category)  // Updated to use FakeMatchRepository
+            val matches = fakeMatchRepository.getBestMatches(tag, category)
             _bestMatches.value = matches
         } catch (e: Exception) {
             _error.value = e.message
