@@ -1,0 +1,649 @@
+Index: app/src/main/java/com/cs407/connectech/auth/LoginFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.cs407.connectech.auth\n\nimport android.os.Bundle\nimport android.view.LayoutInflater\nimport android.view.View\nimport android.view.ViewGroup\nimport android.widget.Toast\nimport androidx.fragment.app.Fragment\nimport androidx.fragment.app.viewModels\nimport com.cs407.connectech.databinding.FragmentLoginBinding\nimport com.cs407.connectech.auth.AuthViewModel\n\nclass LoginFragment : Fragment() {\n    private lateinit var binding: FragmentLoginBinding\n    private val authViewModel: AuthViewModel by viewModels()\n\n    override fun onCreateView(\n        inflater: LayoutInflater, container: ViewGroup?,\n        savedInstanceState: Bundle?\n    ): View {\n        binding = FragmentLoginBinding.inflate(inflater, container, false)\n        setupListeners()\n        observeViewModel()\n        return binding.root\n    }\n\n    private fun setupListeners() {\n        binding.loginButton.setOnClickListener {\n            val email = binding.emailEditText.text.toString().trim()\n            val password = binding.passwordEditText.text.toString().trim()\n            if (email.isNotEmpty() && password.isNotEmpty()) {\n                authViewModel.login(email, password)\n            } else {\n                Toast.makeText(context, \"Please enter email and password\", Toast.LENGTH_SHORT).show()\n            }\n        }\n    }\n\n    private fun observeViewModel() {\n        authViewModel.loginResult.observe(viewLifecycleOwner) { result ->\n            result.onSuccess {\n                Toast.makeText(context, \"Login successful\", Toast.LENGTH_SHORT).show()\n            }.onFailure {\n                Toast.makeText(context, it.message ?: \"Login failed\", Toast.LENGTH_SHORT).show()\n            }\n        }\n    }\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/cs407/connectech/auth/LoginFragment.kt b/app/src/main/java/com/cs407/connectech/auth/LoginFragment.kt
+--- a/app/src/main/java/com/cs407/connectech/auth/LoginFragment.kt	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/app/src/main/java/com/cs407/connectech/auth/LoginFragment.kt	(date 1732148076897)
+@@ -45,5 +45,4 @@
+             }
+         }
+     }
+-}
+-
++}
+\ No newline at end of file
+Index: app/src/main/java/com/cs407/connectech/auth/RegisterFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.cs407.connectech.auth\n\nimport android.os.Bundle\nimport android.view.LayoutInflater\nimport android.view.View\nimport android.view.ViewGroup\nimport android.widget.Toast\nimport androidx.fragment.app.Fragment\nimport androidx.fragment.app.viewModels\nimport com.cs407.connectech.databinding.FragmentRegisterBinding\nimport com.cs407.connectech.auth.AuthViewModel\n\nclass RegisterFragment : Fragment() {\n    private lateinit var binding: FragmentRegisterBinding\n    private val authViewModel: AuthViewModel by viewModels()\n\n    override fun onCreateView(\n        inflater: LayoutInflater, container: ViewGroup?,\n        savedInstanceState: Bundle?\n    ): View {\n        binding = FragmentRegisterBinding.inflate(inflater, container, false)\n        setupListeners()\n        observeViewModel()\n        return binding.root\n    }\n\n    private fun setupListeners() {\n        binding.registerButton.setOnClickListener {\n            val email = binding.emailEditText.text.toString().trim()\n            val password = binding.passwordEditText.text.toString().trim()\n            val confirmPassword = binding.confirmPasswordEditText.text.toString().trim()\n\n            if (email.isNotEmpty() && password.isNotEmpty() && password == confirmPassword) {\n                authViewModel.register(email, password)\n            } else if (password != confirmPassword) {\n                Toast.makeText(context, \"Passwords do not match\", Toast.LENGTH_SHORT).show()\n            } else {\n                Toast.makeText(context, \"Please fill out all fields\", Toast.LENGTH_SHORT).show()\n            }\n        }\n    }\n\n    private fun observeViewModel() {\n        authViewModel.registerResult.observe(viewLifecycleOwner) { result ->\n            result.onSuccess {\n                Toast.makeText(context, \"Registration successful\", Toast.LENGTH_SHORT).show()\n            }.onFailure {\n                Toast.makeText(context, it.message ?: \"Registration failed\", Toast.LENGTH_SHORT).show()\n            }\n        }\n    }\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/cs407/connectech/auth/RegisterFragment.kt b/app/src/main/java/com/cs407/connectech/auth/RegisterFragment.kt
+--- a/app/src/main/java/com/cs407/connectech/auth/RegisterFragment.kt	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/app/src/main/java/com/cs407/connectech/auth/RegisterFragment.kt	(date 1732148077272)
+@@ -50,4 +50,3 @@
+         }
+     }
+ }
+-
+Index: app/build.gradle.kts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\n    alias(libs.plugins.android.application)\n    alias(libs.plugins.kotlin.android)\n}\n\nandroid {\n    namespace = \"com.cs407.connectech\"\n    compileSdk = 34\n\n    defaultConfig {\n        applicationId = \"com.cs407.connectech\"\n        minSdk = 24\n        targetSdk = 34\n        versionCode = 1\n        versionName = \"1.0\"\n\n        testInstrumentationRunner = \"androidx.test.runner.AndroidJUnitRunner\"\n    }\n\n    buildTypes {\n        release {\n            isMinifyEnabled = false\n            proguardFiles(\n                getDefaultProguardFile(\"proguard-android-optimize.txt\"),\n                \"proguard-rules.pro\"\n            )\n        }\n    }\n    compileOptions {\n        sourceCompatibility = JavaVersion.VERSION_1_8\n        targetCompatibility = JavaVersion.VERSION_1_8\n    }\n    kotlinOptions {\n        jvmTarget = \"1.8\"\n    }\n}\n\ndependencies {\n\n    implementation(libs.androidx.core.ktx)\n    implementation(libs.androidx.appcompat)\n    implementation(libs.material)\n    implementation(libs.androidx.activity)\n    implementation(libs.androidx.constraintlayout)\n    testImplementation(libs.junit)\n    androidTestImplementation(libs.androidx.junit)\n    androidTestImplementation(libs.androidx.espresso.core)\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/build.gradle.kts b/app/build.gradle.kts
+--- a/app/build.gradle.kts	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/app/build.gradle.kts	(date 1731975238054)
+@@ -5,18 +5,22 @@
+ 
+ android {
+     namespace = "com.cs407.connectech"
+-    compileSdk = 34
++    compileSdk = 35
+ 
+     defaultConfig {
+         applicationId = "com.cs407.connectech"
+         minSdk = 24
+-        targetSdk = 34
++        targetSdk = 35
+         versionCode = 1
+         versionName = "1.0"
+ 
+         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+     }
+ 
++    buildFeatures {
++        dataBinding = true
++    }
++
+     buildTypes {
+         release {
+             isMinifyEnabled = false
+@@ -45,4 +49,16 @@
+     testImplementation(libs.junit)
+     androidTestImplementation(libs.androidx.junit)
+     androidTestImplementation(libs.androidx.espresso.core)
++
++    implementation("androidx.fragment:fragment-ktx:1.5.5")
++
++    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
++    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
++
++    implementation("com.squareup.retrofit2:retrofit:2.9.0")
++    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
++
++    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
++    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
++
+ }
+\ No newline at end of file
+Index: app/src/main/res/drawable/rounded_edittext.xml
+===================================================================
+diff --git a/app/src/main/res/drawable/rounded_edittext.xml b/app/src/main/res/drawable/rounded_edittext.xml
+new file mode 100644
+--- /dev/null	(date 1731975238058)
++++ b/app/src/main/res/drawable/rounded_edittext.xml	(date 1731975238058)
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="utf-8"?>
++<selector xmlns:android="http://schemas.android.com/apk/res/android">
++    <shape>
++        <solid android:color="@color/editTextBackground" />
++        <corners android:radius="8dp" />
++    </shape>
++</selector>
+Index: app/src/main/res/layout/fragment_register.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\">\n\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_register.xml b/app/src/main/res/layout/fragment_register.xml
+--- a/app/src/main/res/layout/fragment_register.xml	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/app/src/main/res/layout/fragment_register.xml	(date 1731975238058)
+@@ -1,6 +1,61 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent">
++<layout xmlns:android="http://schemas.android.com/apk/res/android">
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:orientation="vertical"
++        android:padding="16dp"
++        android:gravity="center"
++        android:background="@color/background">
++
++        <!-- Email Input -->
++        <EditText
++            android:id="@+id/emailEditText"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:hint="Email"
++            android:inputType="textEmailAddress"
++            android:padding="12dp"
++            android:background="@drawable/rounded_edittext"
++            android:textColor="@color/textColorPrimary"
++            android:textColorHint="@color/textColorHint" />
++
++        <!-- Password Input -->
++        <EditText
++            android:id="@+id/passwordEditText"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:hint="Password"
++            android:inputType="textPassword"
++            android:padding="12dp"
++            android:background="@drawable/rounded_edittext"
++            android:textColor="@color/textColorPrimary"
++            android:textColorHint="@color/textColorHint"
++            android:layout_marginTop="16dp" />
++
++        <!-- Confirm Password Input -->
++        <EditText
++            android:id="@+id/confirmPasswordEditText"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:hint="Confirm Password"
++            android:inputType="textPassword"
++            android:padding="12dp"
++            android:background="@drawable/rounded_edittext"
++            android:textColor="@color/textColorPrimary"
++            android:textColorHint="@color/textColorHint"
++            android:layout_marginTop="16dp" />
+ 
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
++        <!-- Register Button -->
++        <Button
++            android:id="@+id/registerButton"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:text="Register"
++            android:layout_marginTop="24dp"
++            android:backgroundTint="@color/primary"
++            android:textColor="@android:color/white"
++            android:padding="12dp" />
++
++    </LinearLayout>
++</layout>
+Index: app/src/main/java/com/cs407/connectech/network/ApiService.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.cs407.connectech.network\n\nimport com.cs407.connectech.model.User\nimport com.cs407.connectech.network.requests.LoginRequest\nimport com.cs407.connectech.network.requests.RegisterRequest\nimport com.cs407.connectech.network.requests.ResetPasswordRequest\nimport retrofit2.Response\nimport retrofit2.http.Body\nimport retrofit2.http.POST\n\ninterface ApiService {\n\n    @POST(\"/auth/login\")\n    suspend fun login(@Body loginRequest: LoginRequest): Response<User>\n\n    @POST(\"/auth/register\")\n    suspend fun register(@Body registerRequest: RegisterRequest): Response<User>\n\n    @POST(\"/auth/resetPassword\")\n    suspend fun resetPassword(@Body request: ResetPasswordRequest): Response<Void>\n\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/cs407/connectech/network/ApiService.kt b/app/src/main/java/com/cs407/connectech/network/ApiService.kt
+--- a/app/src/main/java/com/cs407/connectech/network/ApiService.kt	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/app/src/main/java/com/cs407/connectech/network/ApiService.kt	(date 1732148074262)
+@@ -20,4 +20,3 @@
+     suspend fun resetPassword(@Body request: ResetPasswordRequest): Response<Void>
+ 
+ }
+-
+Index: app/src/main/res/layout/fragment_login.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\">\n\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_login.xml b/app/src/main/res/layout/fragment_login.xml
+--- a/app/src/main/res/layout/fragment_login.xml	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/app/src/main/res/layout/fragment_login.xml	(date 1731975238058)
+@@ -1,6 +1,58 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent">
++<layout xmlns:android="http://schemas.android.com/apk/res/android">
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:orientation="vertical"
++        android:padding="16dp"
++        android:gravity="center"
++        android:background="@color/background">
++
++        <!-- Email Input -->
++        <EditText
++            android:id="@+id/emailEditText"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:hint="Email"
++            android:inputType="textEmailAddress"
++            android:padding="12dp"
++            android:background="@drawable/rounded_edittext"
++            android:textColor="@color/textColorPrimary"
++            android:textColorHint="@color/textColorHint" />
++
++        <!-- Password Input -->
++        <EditText
++            android:id="@+id/passwordEditText"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:hint="Password"
++            android:inputType="textPassword"
++            android:padding="12dp"
++            android:background="@drawable/rounded_edittext"
++            android:textColor="@color/textColorPrimary"
++            android:textColorHint="@color/textColorHint"
++            android:layout_marginTop="16dp" />
+ 
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
++        <!-- Login Button -->
++        <Button
++            android:id="@+id/loginButton"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:text="Login"
++            android:layout_marginTop="24dp"
++            android:backgroundTint="@color/primary"
++            android:textColor="@android:color/white"
++            android:padding="12dp" />
++
++        <!-- Forgot Password Link -->
++        <TextView
++            android:id="@+id/forgotPasswordTextView"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:text="Forgot Password?"
++            android:textColor="@color/linkColor"
++            android:layout_marginTop="16dp"
++            android:layout_gravity="center" />
++
++    </LinearLayout>
++</layout>
+Index: app/src/main/java/com/cs407/connectech/auth/ForgotPasswordFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.cs407.connectech.auth\n\nimport android.os.Bundle\nimport android.view.LayoutInflater\nimport android.view.View\nimport android.view.ViewGroup\nimport android.widget.Toast\nimport androidx.fragment.app.Fragment\nimport androidx.fragment.app.viewModels\nimport com.cs407.connectech.databinding.FragmentForgotPasswordBinding\nimport com.cs407.connectech.auth.AuthViewModel\n\nclass ForgotPasswordFragment : Fragment() {\n    private lateinit var binding: FragmentForgotPasswordBinding\n    private val authViewModel: AuthViewModel by viewModels()\n\n    override fun onCreateView(\n        inflater: LayoutInflater, container: ViewGroup?,\n        savedInstanceState: Bundle?\n    ): View {\n        binding = FragmentForgotPasswordBinding.inflate(inflater, container, false)\n        setupListeners()\n        observeViewModel()\n        return binding.root\n    }\n\n    private fun setupListeners() {\n        binding.resetPasswordButton.setOnClickListener {\n            val email = binding.emailEditText.text.toString().trim()\n            if (email.isNotEmpty()) {\n                authViewModel.resetPassword(email)\n            } else {\n                Toast.makeText(context, \"Please enter your email\", Toast.LENGTH_SHORT).show()\n            }\n        }\n    }\n\n    private fun observeViewModel() {\n        authViewModel.resetPasswordResult.observe(viewLifecycleOwner) { result ->\n            result.onSuccess {\n                Toast.makeText(context, \"Reset link sent to email\", Toast.LENGTH_SHORT).show()\n            }.onFailure {\n                Toast.makeText(context, it.message ?: \"Reset failed\", Toast.LENGTH_SHORT).show()\n            }\n        }\n    }\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/cs407/connectech/auth/ForgotPasswordFragment.kt b/app/src/main/java/com/cs407/connectech/auth/ForgotPasswordFragment.kt
+--- a/app/src/main/java/com/cs407/connectech/auth/ForgotPasswordFragment.kt	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/app/src/main/java/com/cs407/connectech/auth/ForgotPasswordFragment.kt	(date 1732148076459)
+@@ -45,4 +45,3 @@
+         }
+     }
+ }
+-
+Index: app/src/main/java/com/cs407/connectech/auth/AuthViewModel.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.cs407.connectech.auth\n\nimport androidx.lifecycle.MutableLiveData\nimport androidx.lifecycle.ViewModel\nimport androidx.lifecycle.viewModelScope\nimport com.cs407.connectech.model.User\nimport com.cs407.connectech.repository.AuthRepository\nimport kotlinx.coroutines.launch\n//import androidx.fragment.app.viewModels\n\nclass AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {\n\n    //private val apiService = RetrofitClient().getClient().create(ApiService::class.java)\n    //private val authRepository = AuthRepository(apiService)\n\n    val loginResult = MutableLiveData<Result<User>>()\n    val registerResult = MutableLiveData<Result<User>>()\n    val resetPasswordResult = MutableLiveData<Result<Void?>>()\n\n    fun login(email: String, password: String) {\n        viewModelScope.launch {\n            loginResult.value = authRepository.login(email, password)\n        }\n    }\n\n    fun register(email: String, password: String) {\n        viewModelScope.launch {\n            registerResult.value = authRepository.register(email, password)\n        }\n    }\n\n    fun resetPassword(email: String) {\n        viewModelScope.launch {\n            resetPasswordResult.value = authRepository.resetPassword(email)\n        }\n    }\n}\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/cs407/connectech/auth/AuthViewModel.kt b/app/src/main/java/com/cs407/connectech/auth/AuthViewModel.kt
+--- a/app/src/main/java/com/cs407/connectech/auth/AuthViewModel.kt	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/app/src/main/java/com/cs407/connectech/auth/AuthViewModel.kt	(date 1732148075628)
+@@ -5,6 +5,8 @@
+ import androidx.lifecycle.viewModelScope
+ import com.cs407.connectech.model.User
+ import com.cs407.connectech.repository.AuthRepository
++import com.cs407.connectech.network.ApiService
++import com.cs407.connectech.network.RetrofitClient
+ import kotlinx.coroutines.launch
+ //import androidx.fragment.app.viewModels
+ 
+@@ -35,4 +37,3 @@
+         }
+     }
+ }
+-
+Index: app/src/main/res/layout/fragment_forgot_password.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_forgot_password.xml b/app/src/main/res/layout/fragment_forgot_password.xml
+--- a/app/src/main/res/layout/fragment_forgot_password.xml	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/app/src/main/res/layout/fragment_forgot_password.xml	(date 1732148076670)
+@@ -1,0 +1,35 @@
++<?xml version="1.0" encoding="utf-8"?>
++<layout xmlns:android="http://schemas.android.com/apk/res/android">
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:orientation="vertical"
++        android:padding="16dp"
++        android:gravity="center"
++        android:background="@color/background">
++
++        <!-- Email Input for Password Reset -->
++        <EditText
++            android:id="@+id/emailEditText"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:hint="Email"
++            android:inputType="textEmailAddress"
++            android:padding="12dp"
++            android:background="@drawable/rounded_edittext"
++            android:textColor="@color/textColorPrimary"
++            android:textColorHint="@color/textColorHint" />
++
++        <!-- Reset Password Button -->
++        <Button
++            android:id="@+id/resetPasswordButton"
++            android:layout_width="match_parent"
++            android:layout_height="wrap_content"
++            android:text="Reset Password"
++            android:layout_marginTop="24dp"
++            android:backgroundTint="@color/primary"
++            android:textColor="@android:color/white"
++            android:padding="12dp" />
++
++    </LinearLayout>
++</layout>
+Index: app/src/main/java/com/cs407/connectech/network/RetrofitClient.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/cs407/connectech/network/RetrofitClient.kt b/app/src/main/java/com/cs407/connectech/network/RetrofitClient.kt
+--- a/app/src/main/java/com/cs407/connectech/network/RetrofitClient.kt	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/app/src/main/java/com/cs407/connectech/network/RetrofitClient.kt	(date 1732148077857)
+@@ -1,0 +1,16 @@
++package com.cs407.connectech.network
++
++import retrofit2.Retrofit
++import retrofit2.converter.gson.GsonConverterFactory
++
++object RetrofitClient {
++    private const val BASE_URL = "https://api.connectech.com/"
++
++    val apiService: ApiService by lazy {
++        Retrofit.Builder()
++            .baseUrl(BASE_URL)
++            .addConverterFactory(GsonConverterFactory.create())
++            .build()
++            .create(ApiService::class.java)
++    }
++}
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># ConnecTech\nCS 407 Project\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/README.md b/README.md
+--- a/README.md	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/README.md	(date 1731975238054)
+@@ -1,2 +1,52 @@
+-# ConnecTech
+-CS 407 Project
++# **ConnecTech**
++
++ConnecTech is a B2B matchmaking platform designed to bridge the gap between small-to-mid-scale businesses and reliable tech service providers. The platform enables businesses to find vetted tech experts for their needs while offering tech providers an immediate pipeline of potential clients.
++
++---
++
++## **Key Features**
++
++### **For Businesses**
++- **Hassle-Free Tech Partner Search**: Find trustworthy tech providers without wasting time.
++- **Vetted Service Providers**: Only qualified and reviewed providers are listed.
++- **Easy Communication & Negotiation**: Built-in tools for transparent communication and contract negotiation.
++- **Efficient Payments**: Secure payment transactions with no hidden fees.
++
++### **For Tech Providers**
++- **Marketing Made Easy**: Reduce acquisition costs with immediate access to businesses in need of services.
++- **Specialized Matches**: Get paired with projects that match your expertise and scale.
++- **Build Reputation**: Grow your client base and earn ratings from successful projects.
++
++---
++
++## **Tech Stack**
++
++### **Frontend**
++- **Kotlin**: Modern programming language for Android app development.
++- **XML**: For designing UI components with flexibility and precision.
++
++### **Architecture**
++- **MVVM (Model-View-ViewModel)**:
++  - **View**: Fragments for `Login`, `Register`, `Forgot Password`, etc.
++  - **ViewModel**: Handles LiveData and ensures UI is reactive.
++  - **Model**: Repositories managing API calls and business logic.
++
++### **Networking**
++- **Retrofit**:
++  - Secure, fast, and efficient communication with backend APIs.
++  - Request models for `Login`, `Register`, and `Reset Password`.
++
++### **Dependencies**
++- **LiveData**: Observes changes in the data and updates the UI in real-time.
++- **View Binding**: Simplifies access to XML views in Kotlin code.
++
++### **Version Control**
++- **Git & GitHub**:
++  - Multiple branches for collaboration.
++  - Proper versioning and commit history tracking.
++
++---
++### **Setup**
++1. Clone the repository:
++   ```bash
++   git clone https://github.com/yourusername/ConnecTech.git
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\n    <string name=\"app_name\">ConnecTech</string>\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+--- a/app/src/main/res/values/strings.xml	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/app/src/main/res/values/strings.xml	(date 1731975238059)
+@@ -1,3 +1,32 @@
+ <resources>
+     <string name="app_name">ConnecTech</string>
++    <!-- Authentication -->
++    <string name="login">Login</string>
++    <string name="register">Register</string>
++    <string name="forgot_password">Forgot Password?</string>
++    <string name="reset_password">Reset Password</string>
++    <string name="email_hint">Email</string>
++    <string name="password_hint">Password</string>
++    <string name="confirm_password_hint">Confirm Password</string>
++
++    <!-- Error Messages -->
++    <string name="error_empty_email_password">Please enter email and password</string>
++    <string name="error_empty_email">Please enter your email</string>
++    <string name="error_passwords_do_not_match">Passwords do not match</string>
++    <string name="error_registration_failed">Registration failed</string>
++    <string name="error_login_failed">Login failed</string>
++    <string name="error_reset_password_failed">Password reset failed</string>
++
++    <!-- Success Messages -->
++    <string name="success_login">Login successful</string>
++    <string name="success_registration">Registration successful</string>
++    <string name="success_reset_password">Reset link sent to email</string>
++
++    <!-- Button Texts -->
++    <string name="login_button_text">Login</string>
++    <string name="register_button_text">Register</string>
++    <string name="reset_password_button_text">Reset Password</string>
++
++    <!-- API Related Strings (Placeholder) -->
++    <string name="api_base_url">https://api.connectech.com/</string>
+ </resources>
+\ No newline at end of file
+Index: app/src/main/res/values/colors.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<resources>\n    <color name=\"black\">#FF000000</color>\n    <color name=\"white\">#FFFFFFFF</color>\n</resources>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/values/colors.xml b/app/src/main/res/values/colors.xml
+--- a/app/src/main/res/values/colors.xml	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/app/src/main/res/values/colors.xml	(date 1731975238059)
+@@ -2,4 +2,10 @@
+ <resources>
+     <color name="black">#FF000000</color>
+     <color name="white">#FFFFFFFF</color>
++    <color name="primary">#6200EE</color>
++    <color name="background">#FFFFFF</color>
++    <color name="editTextBackground">#F5F5F5</color>
++    <color name="linkColor">#1976D2</color>
++    <color name="textColorPrimary">#000000</color>
++    <color name="textColorHint">#808080</color>
+ </resources>
+\ No newline at end of file
+Index: gradle/libs.versions.toml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>[versions]\nagp = \"8.6.0\"\nkotlin = \"1.9.0\"\ncoreKtx = \"1.15.0\"\njunit = \"4.13.2\"\njunitVersion = \"1.2.1\"\nespressoCore = \"3.6.1\"\nappcompat = \"1.7.0\"\nmaterial = \"1.12.0\"\nactivity = \"1.9.3\"\nconstraintlayout = \"2.2.0\"\n\n[libraries]\nandroidx-core-ktx = { group = \"androidx.core\", name = \"core-ktx\", version.ref = \"coreKtx\" }\njunit = { group = \"junit\", name = \"junit\", version.ref = \"junit\" }\nandroidx-junit = { group = \"androidx.test.ext\", name = \"junit\", version.ref = \"junitVersion\" }\nandroidx-espresso-core = { group = \"androidx.test.espresso\", name = \"espresso-core\", version.ref = \"espressoCore\" }\nandroidx-appcompat = { group = \"androidx.appcompat\", name = \"appcompat\", version.ref = \"appcompat\" }\nmaterial = { group = \"com.google.android.material\", name = \"material\", version.ref = \"material\" }\nandroidx-activity = { group = \"androidx.activity\", name = \"activity\", version.ref = \"activity\" }\nandroidx-constraintlayout = { group = \"androidx.constraintlayout\", name = \"constraintlayout\", version.ref = \"constraintlayout\" }\n\n[plugins]\nandroid-application = { id = \"com.android.application\", version.ref = \"agp\" }\nkotlin-android = { id = \"org.jetbrains.kotlin.android\", version.ref = \"kotlin\" }\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/gradle/libs.versions.toml b/gradle/libs.versions.toml
+--- a/gradle/libs.versions.toml	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/gradle/libs.versions.toml	(date 1731974786970)
+@@ -1,5 +1,5 @@
+ [versions]
+-agp = "8.6.0"
++agp = "8.7.2"
+ kotlin = "1.9.0"
+ coreKtx = "1.15.0"
+ junit = "4.13.2"
+Index: gradle/wrapper/gradle-wrapper.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#Wed Nov 06 19:37:38 CST 2024\ndistributionBase=GRADLE_USER_HOME\ndistributionPath=wrapper/dists\ndistributionUrl=https\\://services.gradle.org/distributions/gradle-8.7-bin.zip\nzipStoreBase=GRADLE_USER_HOME\nzipStorePath=wrapper/dists\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>ISO-8859-1
+===================================================================
+diff --git a/gradle/wrapper/gradle-wrapper.properties b/gradle/wrapper/gradle-wrapper.properties
+--- a/gradle/wrapper/gradle-wrapper.properties	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/gradle/wrapper/gradle-wrapper.properties	(date 1731974786973)
+@@ -1,6 +1,6 @@
+ #Wed Nov 06 19:37:38 CST 2024
+ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-8.7-bin.zip
++distributionUrl=https\://services.gradle.org/distributions/gradle-8.9-bin.zip
+ zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
+Index: app/src/main/java/com/cs407/connectech/network/requests/LoginRequest.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.cs407.connectech.network.requests\n\ndata class LoginRequest(\n    val email: String,\n    val password: String\n)\n\n
+===================================================================
+diff --git a/app/src/main/java/com/cs407/connectech/network/requests/LoginRequest.kt b/app/src/main/java/com/cs407/connectech/network/requests/LoginRequest.kt
+--- a/app/src/main/java/com/cs407/connectech/network/requests/LoginRequest.kt	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/app/src/main/java/com/cs407/connectech/network/requests/LoginRequest.kt	(date 1732148077093)
+@@ -4,4 +4,3 @@
+     val email: String,
+     val password: String
+ )
+-
+Index: app/src/main/java/com/cs407/connectech/network/requests/RegisterRequest.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.cs407.connectech.network.requests\n\ndata class RegisterRequest(\n    val email: String,\n    val password: String\n)\n\n
+===================================================================
+diff --git a/app/src/main/java/com/cs407/connectech/network/requests/RegisterRequest.kt b/app/src/main/java/com/cs407/connectech/network/requests/RegisterRequest.kt
+--- a/app/src/main/java/com/cs407/connectech/network/requests/RegisterRequest.kt	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/app/src/main/java/com/cs407/connectech/network/requests/RegisterRequest.kt	(date 1732148077458)
+@@ -4,4 +4,3 @@
+     val email: String,
+     val password: String
+ )
+-
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><project version=\"4\">\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\n  <component name=\"GradleSettings\">\n    <option name=\"linkedExternalProjectsSettings\">\n      <GradleProjectSettings>\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\n        <option name=\"gradleJvm\" value=\"#GRADLE_LOCAL_JAVA_HOME\" />\n        <option name=\"modules\">\n          <set>\n            <option value=\"$PROJECT_DIR$\" />\n            <option value=\"$PROJECT_DIR$/app\" />\n          </set>\n        </option>\n        <option name=\"resolveExternalAnnotations\" value=\"false\" />\n      </GradleProjectSettings>\n    </option>\n  </component>\n</project>\n\n
+===================================================================
+diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+--- a/.idea/gradle.xml	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/.idea/gradle.xml	(date 1731974797602)
+@@ -1,8 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="GradleMigrationSettings" migrationVersion="1" />
+   <component name="GradleSettings">
+     <option name="linkedExternalProjectsSettings">
+       <GradleProjectSettings>
++        <option name="testRunner" value="CHOOSE_PER_TEST" />
+         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+         <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
+         <option name="modules">
+@@ -15,5 +17,4 @@
+       </GradleProjectSettings>
+     </option>
+   </component>
+-</project>
+-
++</project>
+\ No newline at end of file
+Index: app/src/main/java/com/cs407/connectech/network/requests/ResetPasswordRequest.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.cs407.connectech.network.requests\n\ndata class RegisterRequest(\n    val email: String,\n    val password: String\n)\n\n
+===================================================================
+diff --git a/app/src/main/java/com/cs407/connectech/network/requests/ResetPasswordRequest.kt b/app/src/main/java/com/cs407/connectech/network/requests/ResetPasswordRequest.kt
+--- a/app/src/main/java/com/cs407/connectech/network/requests/ResetPasswordRequest.kt	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/app/src/main/java/com/cs407/connectech/network/requests/ResetPasswordRequest.kt	(date 1732148077674)
+@@ -1,7 +1,5 @@
+ package com.cs407.connectech.network.requests
+ 
+-data class RegisterRequest(
+-    val email: String,
+-    val password: String
++data class ResetPasswordRequest(
++    val email: String
+ )
+-
+Index: app/src/main/res/layout/fragment_container.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:id=\"@+id/main\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    tools:context=\".MainActivity\">\n\n    <TextView\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:text=\"Hello World!\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintTop_toTopOf=\"parent\" />\n\n</androidx.constraintlayout.widget.ConstraintLayout>
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_container.xml b/app/src/main/res/layout/fragment_container.xml
+--- a/app/src/main/res/layout/fragment_container.xml	(revision 7a1cd82ede465bd1f052110ffbd20c4371968121)
++++ b/app/src/main/res/layout/fragment_container.xml	(date 1731975238058)
+@@ -2,18 +2,19 @@
+ <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+-    android:id="@+id/main"
++    android:id="@+id/main_container"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    tools:context=".MainActivity">
++    tools:context=".ConnecTechApp">
+ 
+-    <TextView
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:text="Hello World!"
++    <androidx.fragment.app.FragmentContainerView
++        android:id="@+id/fragment_container"
++        android:layout_width="0dp"
++        android:layout_height="0dp"
++        app:layout_constraintTop_toTopOf="parent"
+         app:layout_constraintBottom_toBottomOf="parent"
+-        app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+-        app:layout_constraintTop_toTopOf="parent" />
++        app:layout_constraintEnd_toEndOf="parent"
++        tools:layout="@layout/fragment_login" />
+ 
+-</androidx.constraintlayout.widget.ConstraintLayout>
+\ No newline at end of file
++</androidx.constraintlayout.widget.ConstraintLayout>
