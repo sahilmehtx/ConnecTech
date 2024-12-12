@@ -23,6 +23,7 @@ class BestMatchesFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var matchViewModel: MatchViewModel
     private lateinit var matchAdapter: MatchAdapter
+    private val selectedCompanies = mutableListOf<Match>()
     private val args: BestMatchesFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -44,6 +45,7 @@ class BestMatchesFragment : Fragment() {
         observeData()
 
         // Fetch best matches based on arguments
+        val args = BestMatchesFragmentArgs.fromBundle(requireArguments())
         matchViewModel.fetchBestMatches(args.selectedTag, args.selectedCategory)
 
         return binding.root

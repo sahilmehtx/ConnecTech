@@ -36,10 +36,11 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() {
         }
     }
 
-    fun submitProblem(problemDetails: String, category: String) {
+    fun submitProblem(problemDetails: String, category: String): LiveData<Result<Boolean>> {
         viewModelScope.launch {
             problemSubmissionResult.value = authRepository.submitProblem(problemDetails, category)
         }
+        return problemSubmissionResult
     }
 
     fun logout() {

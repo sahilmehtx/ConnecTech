@@ -8,29 +8,65 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cs407.connectech.databinding.FragmentInboxBinding
+import com.cs407.connectech.repository.FakeMatchRepository
 
 class InboxFragment : Fragment() {
-    private lateinit var binding: FragmentInboxBinding
-    private val totalPages = 5 // Example total pages
+    private var _binding: FragmentInboxBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentInboxBinding.inflate(inflater, container, false)
-        setupPagination()
+        _binding = FragmentInboxBinding.inflate(inflater, container, false)
+        setupMessages()
         return binding.root
     }
 
-    private fun setupPagination() {
-        val paginationAdapter = PaginationAdapter(totalPages) { page ->
-            // Handle page click
-            Toast.makeText(requireContext(), "Page $page clicked", Toast.LENGTH_SHORT).show()
+    private fun setupMessages() {
+        val args = InboxFragmentArgs.fromBundle(requireArguments())
+        val problemDetails = args.problemDetails
+        val category = args.category
+        val selectedTags = args.selectedTags
+        val companyIds = args.companyIds
+
+        val repository = FakeMatchRepository(requireContext())
+        val companies = repository.getAllCompanies()
+
+        // Map company IDs to messages
+        val messages = companyIds.toList().mapNotNull { companyId ->
+            val company = companies.find { it.ranking == companyId }
+            company?.let {
+                Message(
+                    companyName = it.name,
+                    problemDescription = problemDetails,
+                    tags = listOf(category) + selectedTags
+                )
+            }
         }
 
-        binding.paginationRecyclerView.apply {
-            adapter = paginationAdapter
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.inboxRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = InboxAdapter(messages) { message ->
+                // Handle "Notify" button click for a specific message
+                notifyCompany(message)
+            }
         }
+        // Update UI with problem details, category, and selected tags
+        binding.tvProblemDetails.text = problemDetails
+        binding.tvCategory.text = category
+        binding.tvSelectedTags.text = selectedTags.toString()
+    }
+
+
+    private fun notifyCompany(message: Message) {
+        // Logic to notify the company
+        Toast.makeText(requireContext(), "Notify clicked for ${message.companyName}", Toast.LENGTH_SHORT).show()
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

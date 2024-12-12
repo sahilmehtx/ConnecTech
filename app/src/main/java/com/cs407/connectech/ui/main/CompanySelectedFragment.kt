@@ -25,34 +25,29 @@ class CompanySelectedFragment : Fragment() {
     ): View {
         _binding = FragmentCompanySelectedBinding.inflate(inflater, container, false)
 
-        // Get companyId from Safe Args
-        val companyId = args.companyId
+        // Fetch company details
+        val match = fetchCompanyDetails(args.companyId)
 
-        // Fetch company details from repository
-        val match = fetchCompanyDetails(companyId)
-
-        // Check if match is found
-        if (match != null) {
-            // Populate UI with company details
-            binding.companyName.text = match.name
+        // Populate UI
+        match?.let {
+            binding.companyName.text = it.name
             binding.companyDetails.text = """
-                Ranking: ${match.ranking}
-                Name: ${match.name}
-                Market Cap: ${match.marketCap}
-                Stock Symbol: ${match.stockSymbol}
-                Country: ${match.country}
-                Sector: ${match.sector}
-                Industry: ${match.industry}
+                Ranking: ${it.ranking}
+                Name: ${it.name}
+                Market Cap: ${it.marketCap}
+                Stock Symbol: ${it.stockSymbol}
+                Country: ${it.country}
+                Sector: ${it.sector}
+                Industry: ${it.industry}
             """.trimIndent()
-        } else {
-            // Handle case where company details are not found
-            binding.companyName.text = "Company Not Found"
-            binding.companyDetails.text = "Could not find details for this company."
         }
 
-        // Set up the "Select Partner" button
+        // Handle "Select Partner" button
         binding.selectPartnerButton.setOnClickListener {
-            showAlertDialog()
+            match?.let {
+                CompanyListRepository.addCompany(it)
+                showConfirmationDialog()
+            }
         }
 
         return binding.root
@@ -63,19 +58,13 @@ class CompanySelectedFragment : Fragment() {
         return repository.getCompanyById(companyId)
     }
 
-    private fun showAlertDialog() {
+    private fun showConfirmationDialog() {
         AlertDialog.Builder(requireContext())
             .setTitle("Partner Selected!")
-            .setMessage("This partner has been added to your list!")
+            .setMessage("This partner has been added to your list.")
             .setPositiveButton("OK") { dialog, _ ->
                 dialog.dismiss()
-                val match = fetchCompanyDetails(args.companyId)
-                if (match != null) {
-                    CompanyListRepository.addCompany(match)
-                }
-
-                // Navigate back
-                requireActivity().onBackPressedDispatcher.onBackPressed()
+                findNavController().navigateUp() // Navigate back to CompanyListFragment
             }
             .create()
             .show()

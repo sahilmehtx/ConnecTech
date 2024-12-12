@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cs407.connectech.R
 import com.cs407.connectech.databinding.FragmentCompanyListBinding
 import com.cs407.connectech.model.Match
 import com.cs407.connectech.repository.CompanyListRepository
@@ -58,9 +60,26 @@ class CompanyListFragment : Fragment() {
     }
 
     private fun notifyCompany(company: Match) {
+        // Use actual problem details and other data
+        val problemDetails = arguments?.getString("problemDetails") ?: "Default problem description"
+        val category = arguments?.getString("selectedCategory") ?: "Default category"
+        val selectedTags = arguments?.getStringArray("selectedTags") ?: arrayOf("DefaultTag")
+
+        // Log for debugging purposes
+        println("Notify: ProblemDetails=$problemDetails, Category=$category, Tags=${selectedTags.joinToString()}")
+
+        // Navigate to InboxFragment
+        val companyIds = intArrayOf(company.ranking)
+
+        val action = CompanyListFragmentDirections.actionCompanyListFragmentToInboxFragment(
+            problemDetails = problemDetails,
+            category = category,
+            selectedTags = selectedTags,
+            companyIds = companyIds
+        )
+        findNavController().navigate(action)
+
         Toast.makeText(requireContext(), "Notify clicked for ${company.name}", Toast.LENGTH_SHORT).show()
-        // Optionally navigate to another fragment like inbox if required
-        // findNavController().navigate(R.id.action_companyListFragment_to_inboxFragment)
     }
 
     override fun onDestroyView() {

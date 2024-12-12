@@ -16,4 +16,8 @@ object CompanyListRepository {
     fun getSelectedCompanies(): List<Match> {
         return selectedCompanies
     }
+
+    fun clear() {
+        selectedCompanies.clear()
+    }
 }

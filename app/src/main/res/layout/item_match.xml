@@ -14,6 +14,13 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <CheckBox
+            android:id="@+id/selectButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Select" />
+
         <!-- Match Name -->
         <TextView
             android:id="@+id/matchName"

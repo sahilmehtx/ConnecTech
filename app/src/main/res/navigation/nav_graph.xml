@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_problemSubmissionFragment_to_bestMatchesFragment"
             app:destination="@id/bestMatchesFragment" />
+        <action
+            android:id="@+id/action_problemSubmissionFragment_to_inboxFragment"
+            app:destination="@id/inboxFragment" />
     </fragment>
 
     <!-- Inbox Fragment -->
@@ -37,14 +40,31 @@
         android:id="@+id/inboxFragment"
         android:name="com.cs407.connectech.inbox.InboxFragment"
         android:label="Inbox"
-        tools:layout="@layout/fragment_inbox" />
+        tools:layout="@layout/fragment_inbox">
+        <argument
+            android:name="problemDetails"
+            app:argType="string" />
+        <argument
+            android:name="selectedTags"
+            app:argType="string[]" />
+        <argument
+            android:name="category"
+            app:argType="string" />
+        <argument
+            android:name="companyIds"
+            app:argType="integer[]" />
+    </fragment>
 
     <!-- Company List Fragment (My Companies) -->
     <fragment
         android:id="@+id/companyListFragment"
         android:name="com.cs407.connectech.ui.main.CompanyListFragment"
         android:label="My Companies"
-        tools:layout="@layout/item_company_list" />
+        tools:layout="@layout/fragment_company_list">
+        <action
+            android:id="@+id/action_companyListFragment_to_inboxFragment"
+            app:destination="@id/inboxFragment" />
+    </fragment>
 
     <!-- Settings Fragment -->
     <fragment
@@ -131,6 +151,8 @@
             android:name="companyId"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_companySelectedFragment_to_inboxFragment"
+            app:destination="@id/inboxFragment" />
     </fragment>
-
 </navigation>

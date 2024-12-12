@@ -24,76 +24,56 @@ class ProblemSubmissionFragment : Fragment() {
 
     private var _binding: FragmentProblemSubmissionBinding? = null
     private val binding get() = _binding!!
-   private lateinit var authViewModel: AuthViewModel
-   private lateinit var matchViewModel: MatchViewModel
+    private lateinit var authViewModel: AuthViewModel
+    private lateinit var matchViewModel: MatchViewModel
 
-    override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentProblemSubmissionBinding.inflate(inflater, container, false)
 
-        val db = Room.databaseBuilder(requireContext(), AppDatabase::class.java, "app_db").build()
-        val authRepo = FakeAuthRepository(db.userDao())
-        val factory = AuthViewModelFactory(authRepo)
-        authViewModel = ViewModelProvider(this, factory)[AuthViewModel::class.java]
-        matchViewModel = ViewModelProvider(this, MatchViewModelFactory(FakeMatchRepository(requireContext())))[MatchViewModel::class.java]
-
+        setupViewModels()
         setupUI()
         return binding.root
     }
 
+    private fun setupViewModels() {
+        val db = Room.databaseBuilder(requireContext(), AppDatabase::class.java, "app_db").build()
+        val authRepo = FakeAuthRepository(db.userDao())
+        authViewModel = ViewModelProvider(this, AuthViewModelFactory(authRepo))[AuthViewModel::class.java]
+        matchViewModel = ViewModelProvider(this, MatchViewModelFactory(FakeMatchRepository(requireContext())))[MatchViewModel::class.java]
+    }
+
     private fun setupUI() {
-        val categories = listOf(
-            "Large Business", "Medium Business", "Small Business", "Enterprise",
-            "Private Project", "Startup", "Other", "None"
-        )
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.categoryDropdown.adapter = adapter
-        binding.categoryDropdown.setSelection(0)
+        val categories = listOf("Large Business", "Medium Business", "Small Business", "Startup")
+        val categoryAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
+        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.categoryDropdown.adapter = categoryAdapter
 
-        // Populate tags (industries) from companies.csv
         val repository = FakeMatchRepository(requireContext())
-        val tags = repository.getAllCompanies()
-            .map { it.industry }
-            .distinct()
+        val tags = repository.getAllCompanies().map { it.industry }.distinct()
 
-        tags.forEach { tagText ->
+        tags.forEach { tag ->
             val chip = Chip(requireContext())
-            chip.text = tagText
+            chip.text = tag
             chip.isCheckable = true
             binding.tagChipGroup.addView(chip)
         }
-
-        // Add tags as chips dynamically if needed, or ensure they are defined in the layout.
-        // If your layout already has chips, skip adding them here.
-        // Example:
-        /*
-        val tags = listOf("AI/ML", "Data Science", "Web Dev", "Mobile Dev", "Cloud Computing", "Blockchain", "Cybersecurity")
-        tags.forEach { tagText ->
-            val chip = Chip(requireContext())
-            chip.text = tagText
-            chip.isCheckable = true
-            binding.tagChipGroup.addView(chip)
-        }
-        */
 
         binding.submitButton.setOnClickListener {
             val problemDetails = binding.projectDetailsInput.text?.toString()?.trim() ?: ""
-            val category = binding.categoryDropdown.selectedItem?.toString()?.trim() ?: ""
-
+            val selectedCategory = binding.categoryDropdown.selectedItem?.toString()?.trim() ?: ""
             val selectedChipId = binding.tagChipGroup.checkedChipId
             val selectedTag = if (selectedChipId != View.NO_ID) {
                 binding.tagChipGroup.findViewById<Chip>(selectedChipId)?.text?.toString()?.trim() ?: ""
+            } else ""
+
+            if (problemDetails.isEmpty()) {
+                binding.projectDetailsInput.error = "Enter the project details."
+            } else if (selectedCategory.isEmpty()) {
+                Toast.makeText(requireContext(), "Select a category.", Toast.LENGTH_SHORT).show()
+            } else if (selectedTag.isEmpty()) {
+                Toast.makeText(requireContext(), "Select a tag.", Toast.LENGTH_SHORT).show()
             } else {
-                ""
-            }
-
-            Log.d("ProblemSubmission", "Problem Details: '$problemDetails', Category: '$category', Selected Tag: '$selectedTag'")
-
-            when {
-                problemDetails.isEmpty() -> binding.projectDetailsInput.error = "Please enter project details."
-                category.isEmpty() -> Toast.makeText(context, "Please select a category.", Toast.LENGTH_SHORT).show()
-                selectedTag.isEmpty() -> Toast.makeText(context, "Please select a tag.", Toast.LENGTH_SHORT).show()
-                else -> submitProblem(problemDetails, category, selectedTag)
+                submitProblem(problemDetails, selectedCategory, selectedTag)
             }
         }
     }
@@ -103,20 +83,43 @@ class ProblemSubmissionFragment : Fragment() {
         binding.submitButton.isEnabled = false
 
         authViewModel.submitProblem(problemDetails, category)
-        authViewModel.problemSubmissionResult.observe(viewLifecycleOwner) { result ->
-            binding.submitButton.isEnabled = true
-            binding.progressBar.visibility = View.GONE
+            .observe(viewLifecycleOwner) { result ->
+                binding.progressBar.visibility = View.GONE
+                binding.submitButton.isEnabled = true
 
-            result.onSuccess {
-                val action = ProblemSubmissionFragmentDirections.actionProblemSubmissionFragmentToBestMatchesFragment(selectedTag, category)
-                findNavController().navigate(action)
-                Toast.makeText(context, "Problem submitted successfully!", Toast.LENGTH_SHORT).show()
-            }.onFailure { exception ->
-                Toast.makeText(context, "Submission failed: ${exception.message}", Toast.LENGTH_SHORT).show()
-                Log.e("ProblemSubmission", "Submission failed: ${exception.message}")
+                result.onSuccess { success ->
+                    if (success) {
+                        // Navigate to BestMatchesFragment
+                        val action = ProblemSubmissionFragmentDirections.actionProblemSubmissionFragmentToBestMatchesFragment(
+                            selectedTag = selectedTag,
+                            selectedCategory = category
+                        )
+                        findNavController().navigate(action)
+
+                        Toast.makeText(
+                            requireContext(),
+                            "Problem submitted successfully!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Submission failed: Unknown error.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        Log.e("ProblemSubmission", "Submission failed: Unknown error.")
+                    }
+                }.onFailure { exception ->
+                    Toast.makeText(
+                        requireContext(),
+                        "Submission failed: ${exception.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.e("ProblemSubmission", "Submission failed: ${exception.message}")
+                }
             }
-        }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
