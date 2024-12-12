@@ -1,33 +1,45 @@
 package com.cs407.connectech
 
 import android.os.Bundle
-import android.widget.Button
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
+import com.cs407.connectech.ui.main.HomeFragment
 import com.cs407.connectech.auth.LoginFragment
 import com.cs407.connectech.auth.RegisterFragment
+import com.cs407.connectech.ui.main.LandingPage
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class ConnecTechApp : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.fragment_container)
+        setContentView(R.layout.activity_main)
 
-        val loginButton: Button = findViewById(R.id.login_button)
-        val createAccountButton: Button = findViewById(R.id.create_account_button)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        NavigationUI.setupWithNavController(bottomNav, navController)
 
-        loginButton.setOnClickListener {
-            navigateToFragment(LoginFragment())
-        }
-
-        createAccountButton.setOnClickListener {
-            navigateToFragment(RegisterFragment())
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.loginFragment, R.id.registerFragment, R.id.landingPage, R.id.forgotPasswordFragment-> {
+                    bottomNav.visibility = View.GONE
+                }
+                else -> {
+                    bottomNav.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
-    fun navigateToFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
-            .commit()
+    override fun onBackPressed() {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        if (!navController.navigateUp()) {
+            super.onBackPressed()
+        }
     }
 }

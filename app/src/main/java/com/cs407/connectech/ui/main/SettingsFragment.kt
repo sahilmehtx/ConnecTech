@@ -1,35 +1,55 @@
+// File: SettingsFragment.kt
 package com.cs407.connectech.ui.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.room.Room
+import com.cs407.connectech.R
+import com.cs407.connectech.data.AppDatabase
 import com.cs407.connectech.databinding.FragmentSettingsBinding
-import com.cs407.connectech.ui.login.LoginActivity
+import com.cs407.connectech.repository.FakeAuthRepository
+import com.cs407.connectech.viewmodel.AuthViewModel
+import com.cs407.connectech.viewmodel.AuthViewModelFactory
 
 class SettingsFragment : Fragment() {
 
     private var _binding: FragmentSettingsBinding? = null
     private val binding get() = _binding!!
 
+    // Initialize AuthViewModel
+    private lateinit var authViewModel: AuthViewModel
+    private lateinit var authViewModelFactory: AuthViewModelFactory
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+
+        // Build the DB and get UserDao
+        val db = Room.databaseBuilder(requireContext(), AppDatabase::class.java, "app_db").build()
+        val fakeAuthRepository = FakeAuthRepository(db.userDao())
+
+        // Initialize AuthViewModel with Factory
+        authViewModelFactory = AuthViewModelFactory(fakeAuthRepository)
+        authViewModel = ViewModelProvider(this, authViewModelFactory)[AuthViewModel::class.java]
+
         setupUI()
+        observeLogoutResult()
+
         return binding.root
     }
 
     private fun setupUI() {
-        // Mock user data (replace with actual data as needed)
         binding.etName.setText("John Doe")
         binding.etEmail.setText("john.doe@example.com")
 
-        // Handle button clicks
         binding.btnOngoingContract.setOnClickListener {
             Toast.makeText(requireContext(), "Ongoing Contract Clicked", Toast.LENGTH_SHORT).show()
         }
@@ -46,8 +66,8 @@ class SettingsFragment : Fragment() {
             Toast.makeText(requireContext(), "Progress Clicked", Toast.LENGTH_SHORT).show()
         }
 
-        binding.btnHelpCenter.setOnClickListener {
-            Toast.makeText(requireContext(), "Help Center Clicked", Toast.LENGTH_SHORT).show()
+        binding.btnaboutus.setOnClickListener {
+            aboutUS()
         }
 
         binding.btnLogout.setOnClickListener {
@@ -55,13 +75,17 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    private fun aboutUS() {
+        //findNavController().navigate(R.id.action_settingsFragment_to_profileFragment)
+    }
+
     private fun handleLogout() {
-        // Logic to handle logout
+        authViewModel.logout()
         Toast.makeText(requireContext(), "Logged out successfully", Toast.LENGTH_SHORT).show()
-        // Redirect to the login activity
-        val intent = Intent(requireContext(), LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
+        findNavController().navigate(R.id.action_settingsFragment_to_loginFragment)
+    }
+
+    private fun observeLogoutResult() {
     }
 
     override fun onDestroyView() {

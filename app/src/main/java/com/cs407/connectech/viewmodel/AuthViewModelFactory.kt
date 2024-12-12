@@ -1,9 +1,8 @@
-package com.cs407.connectech.auth
+package com.cs407.connectech.viewmodel
 
-import com.cs407.connectech.auth.AuthViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.connectech.app.repository.AuthRepository
+import com.cs407.connectech.repository.AuthRepository
 
 class AuthViewModelFactory(private val authRepository: AuthRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

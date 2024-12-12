@@ -93,10 +93,10 @@
                         android:layout_marginTop="8dp" />
 
                     <Button
-                        android:id="@+id/btnHelpCenter"
+                        android:id="@+id/btnaboutus"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/help_center"
+                        android:text="@string/about_us"
                         android:layout_marginTop="8dp" />
 
                     <Button
