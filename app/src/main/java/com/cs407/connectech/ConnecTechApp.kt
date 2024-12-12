@@ -18,16 +18,14 @@ class ConnecTechApp : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
-
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         NavigationUI.setupWithNavController(bottomNav, navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.loginFragment, R.id.registerFragment, R.id.landingPage, R.id.forgotPasswordFragment -> {
+                R.id.loginFragment, R.id.registerFragment, R.id.landingPage, R.id.forgotPasswordFragment-> {
                     bottomNav.visibility = View.GONE
                 }
                 else -> {
@@ -38,8 +36,7 @@ class ConnecTechApp : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         if (!navController.navigateUp()) {
             super.onBackPressed()

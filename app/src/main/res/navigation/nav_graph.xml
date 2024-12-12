@@ -15,7 +15,7 @@
             app:destination="@id/loginFragment" />
         <action
             android:id="@+id/action_landingPage_to_registerFragment"
-            app:destination="@id/registerFragment" />
+            app:destination="@id/navigation" />
     </fragment>
 
     <!-- Login Fragment -->
@@ -42,6 +42,7 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/landingPage"
             app:popUpToInclusive="false" />
+
     </fragment>
 
     <!-- Forgot Password Fragment -->
@@ -50,34 +51,11 @@
         android:name="com.cs407.connectech.auth.ForgotPasswordFragment"
         android:label="Forgot Password">
         <action
-            android:id="@+id/action_forgotPasswordFragment_to_changePasswordFragment"
-            app:destination="@id/changePasswordFragment" />
-    </fragment>
-
-    <!-- Change Password Fragment (New) -->
-    <fragment
-        android:id="@+id/changePasswordFragment"
-        android:name="com.cs407.connectech.auth.ChangePasswordFragment"
-        android:label="Change Password">
-        <argument
-            android:name="email"
-            app:argType="string"
-            android:defaultValue="" />
-        <action
-            android:id="@+id/action_changePasswordFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_forgotPasswordFragment_to_registerFragment"
+            app:destination="@id/navigation" />
     </fragment>
 
     <!-- Register Fragment -->
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.cs407.connectech.auth.RegisterFragment"
-        android:label="Register">
-        <!-- After registering, go to loginFragment so user can login with new credentials -->
-        <action
-            android:id="@+id/action_registerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
-    </fragment>
 
     <!-- Problem Submission Fragment -->
     <fragment
@@ -129,6 +107,23 @@
         android:name="com.cs407.connectech.inbox.InboxFragment"
         android:label="Inbox" />
 
-    <!-- Selected Companies Fragment (If not needed, remove this entirely) -->
+    <!-- Company List Fragment  -->
+    <fragment
+        android:id="@+id/companyListFragment"
+        android:name="com.cs407.connectech.ui.main.CompanyListFragment"
+        android:label="My Companies"
+        tools:layout="@layout/fragment_company_list" />
+    <navigation android:id="@+id/navigation"
+        app:startDestination="@id/registerFragment">
+        <fragment
+            android:id="@+id/registerFragment"
+            android:name="com.cs407.connectech.auth.RegisterFragment"
+            android:label="Register">
+            <!-- After registering, go to loginFragment so user can login with new credentials -->
+            <action
+                android:id="@+id/action_registerFragment_to_loginFragment"
+                app:destination="@id/loginFragment" />
+        </fragment>
+    </navigation>
 
 </navigation>

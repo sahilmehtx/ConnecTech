@@ -39,7 +39,6 @@ class LoginFragment : Fragment() {
     }
 
     private fun setupListeners() {
-        // Login Button Logic
         binding.loginButton.setOnClickListener {
             val email = binding.emailEditText.text.toString().trim()
             val password = binding.passwordEditText.text.toString().trim()
@@ -50,12 +49,10 @@ class LoginFragment : Fragment() {
             }
         }
 
-        // Back Button Logic
         binding.backButton.setOnClickListener {
-            findNavController().navigateUp() // Navigate back to the previous page in the navigation stack
+            findNavController().navigateUp()
         }
 
-        // Forgot Password Logic
         binding.forgotPasswordTextView.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordFragment)
         }

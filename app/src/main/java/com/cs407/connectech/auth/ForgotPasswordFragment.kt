@@ -69,10 +69,7 @@ class ForgotPasswordFragment : Fragment() {
             .setTitle("Email Verified!")
             .setMessage("You can reset your password now.")
             .setPositiveButton("OK") { _, _ ->
-                val email = binding.emailEditText.text.toString().trim()
-                // Navigate to ChangePasswordFragment with the email argument
-                val action = ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToChangePasswordFragment(email)
-                findNavController().navigate(action)
+                findNavController().navigate(R.id.action_forgotPasswordFragment_to_registerFragment)
             }
             .setCancelable(false)
             .show()

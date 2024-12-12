@@ -7,16 +7,6 @@
 
 //How to Use: The matching team can extend this file if more fields are required, such as feedback or acceptance status.
 
-//package com.cs407.connectech.model
-//
-//data class Match(
-//    val id: String,
-//    val name: String,
-//    val rating: Double,
-//    val category: String,
-//    val location: String
-//)
-
 package com.cs407.connectech.model
 
 data class Match(

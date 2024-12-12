@@ -47,16 +47,8 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setupUI() {
-
-        // Observe the current user's email
-        authViewModel.currentUserEmail.observe(viewLifecycleOwner) { email ->
-            binding.etEmail.setText(email)
-        }
-
-        // Fetch the email when the UI is set up
-        authViewModel.fetchCurrentUserEmail()
-
-        //binding.etEmail.setText("john.doe@example.com")
+        binding.etName.setText("John Doe")
+        binding.etEmail.setText("john.doe@example.com")
 
         binding.btnOngoingContract.setOnClickListener {
             Toast.makeText(requireContext(), "Ongoing Contract Clicked", Toast.LENGTH_SHORT).show()
@@ -75,12 +67,16 @@ class SettingsFragment : Fragment() {
         }
 
         binding.btnaboutus.setOnClickListener {
-            Toast.makeText(requireContext(), "About us Clicked", Toast.LENGTH_SHORT).show()
+            aboutUS()
         }
 
         binding.btnLogout.setOnClickListener {
             handleLogout()
         }
+    }
+
+    private fun aboutUS() {
+        //findNavController().navigate(R.id.action_settingsFragment_to_profileFragment)
     }
 
     private fun handleLogout() {
@@ -90,7 +86,6 @@ class SettingsFragment : Fragment() {
     }
 
     private fun observeLogoutResult() {
-        // If logout had async logic, observe here.
     }
 
     override fun onDestroyView() {

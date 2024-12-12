@@ -1,5 +1,6 @@
 package com.cs407.connectech.repository
 
+import androidx.lifecycle.LiveData
 import com.cs407.connectech.model.User
 
 /**
@@ -12,6 +13,5 @@ interface AuthRepository {
     suspend fun submitProblem(problemDetails: String, category: String): Result<Boolean>
     fun logout()
     fun getLoggedInUser(): String?
-    suspend fun updatePassword(email: String, newPassword: String): Result<Boolean>?
-    suspend fun getCurrentUserEmail(): String?
 }
+
