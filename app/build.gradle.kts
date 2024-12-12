@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("androidx.navigation.safeargs.kotlin")
-    // Add KSP plugin
     id("com.google.devtools.ksp") version "1.9.0-1.0.13"
 }
 
@@ -73,5 +72,7 @@ dependencies {
     // Room dependencies with KSP
     implementation("androidx.room:room-runtime:2.5.2")
     implementation("androidx.room:room-ktx:2.5.2")
+    implementation("com.opencsv:opencsv:5.7.1")
     ksp("androidx.room:room-compiler:2.5.2")
+
 }

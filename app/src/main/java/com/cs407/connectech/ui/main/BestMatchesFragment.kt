@@ -8,8 +8,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.cs407.connectech.databinding.FragmentBestMatchesBinding
 import com.cs407.connectech.model.Match
 import com.cs407.connectech.repository.FakeMatchRepository
@@ -23,38 +23,36 @@ class BestMatchesFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var matchViewModel: MatchViewModel
     private lateinit var matchAdapter: MatchAdapter
-
-    // Retrieve arguments using Safe Args
     private val args: BestMatchesFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentBestMatchesBinding.inflate(inflater, container, false)
 
+        // Initialize ViewModel
         matchViewModel = ViewModelProvider(
             this,
-            MatchViewModelFactory(FakeMatchRepository())
-        ).get(MatchViewModel::class.java)
+            MatchViewModelFactory(FakeMatchRepository(requireContext()))
+        )[MatchViewModel::class.java]
 
+        // Set up RecyclerView
         setupRecyclerView()
+
+        // Observe LiveData for updates
         observeData()
 
-        // Fetch best matches based on the selected tag and category
-        val selectedTag = args.selectedTag
-        val selectedCategory = args.selectedCategory
-        matchViewModel.fetchBestMatches(selectedTag, selectedCategory)
+        // Fetch best matches based on arguments
+        matchViewModel.fetchBestMatches(args.selectedTag, args.selectedCategory)
 
         return binding.root
     }
 
     private fun setupRecyclerView() {
-        // Initialize RecyclerView adapter with a click listener
         matchAdapter = MatchAdapter { selectedMatch ->
-            // Navigate to CompanySelectedFragment with the selected company's ID
             val action = BestMatchesFragmentDirections
-                .actionBestMatchesFragmentToCompanySelectedFragment(companyId = selectedMatch.id)
+                .actionBestMatchesFragmentToCompanySelectedFragment(companyId = selectedMatch.ranking)
             findNavController().navigate(action)
         }
 
@@ -70,8 +68,9 @@ class BestMatchesFragment : Fragment() {
                 matchAdapter.submitList(matches)
                 updateUI(matches)
             } else {
+                // Handle case where no matches are found
                 Toast.makeText(context, "No matches found for the selected category.", Toast.LENGTH_SHORT).show()
-                // Optionally navigate back or show placeholder UI
+                // Consider navigating back or showing a placeholder UI
             }
         }
 

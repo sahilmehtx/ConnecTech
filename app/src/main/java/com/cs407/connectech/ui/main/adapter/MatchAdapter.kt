@@ -22,13 +22,14 @@ class MatchAdapter(private val onClick: (Match) -> Unit) : ListAdapter<Match, Ma
 
     inner class MatchViewHolder(private val binding: ItemMatchBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(match: Match) {
-            binding.matchName.text = match.name
-            binding.matchRating.text = "Rating: ${match.rating}"
-            binding.matchCategory.text = "Category: ${match.category}"
-            binding.matchLocation.text = "Location: ${match.location}"
-            binding.matchEmail.text = "Email: ${match.email}"
-            binding.matchPhone.text = "Phone: ${match.phone}"
-            binding.matchDescription.text = match.description
+            binding.matchName.text = "Name: ${match.name}"
+            binding.matchRating.text = "Ranking: ${match.ranking}"
+            binding.matchCategory.text = "Category: ${match.industry}"
+            binding.matchLocation.text = "Location: ${match.country}"
+            binding.matchSector.text = "Sector: ${match.sector}"
+            binding.matchMarketCap.text = "Market Cap: ${match.marketCap}"
+            binding.matchStockSymbol.text = "Stock Symbol: ${match.stockSymbol}"
+            
 
             binding.root.setOnClickListener {
                 onClick(match)
@@ -38,7 +39,7 @@ class MatchAdapter(private val onClick: (Match) -> Unit) : ListAdapter<Match, Ma
 
     class MatchDiffCallback : DiffUtil.ItemCallback<Match>() {
         override fun areItemsTheSame(oldItem: Match, newItem: Match): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem.ranking == newItem.ranking
         }
 
         override fun areContentsTheSame(oldItem: Match, newItem: Match): Boolean {

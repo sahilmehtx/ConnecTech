@@ -13,15 +13,19 @@ import com.cs407.connectech.R
 import com.cs407.connectech.data.AppDatabase
 import com.cs407.connectech.databinding.FragmentProblemSubmissionBinding
 import com.cs407.connectech.repository.FakeAuthRepository
+import com.cs407.connectech.repository.FakeMatchRepository
 import com.cs407.connectech.viewmodel.AuthViewModel
 import com.cs407.connectech.viewmodel.AuthViewModelFactory
+import com.cs407.connectech.viewmodel.MatchViewModel
+import com.cs407.connectech.viewmodel.MatchViewModelFactory
 import com.google.android.material.chip.Chip
 
 class ProblemSubmissionFragment : Fragment() {
 
     private var _binding: FragmentProblemSubmissionBinding? = null
     private val binding get() = _binding!!
-    private lateinit var authViewModel: AuthViewModel
+   private lateinit var authViewModel: AuthViewModel
+   private lateinit var matchViewModel: MatchViewModel
 
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View {
         _binding = FragmentProblemSubmissionBinding.inflate(inflater, container, false)
@@ -30,6 +34,7 @@ class ProblemSubmissionFragment : Fragment() {
         val authRepo = FakeAuthRepository(db.userDao())
         val factory = AuthViewModelFactory(authRepo)
         authViewModel = ViewModelProvider(this, factory)[AuthViewModel::class.java]
+        matchViewModel = ViewModelProvider(this, MatchViewModelFactory(FakeMatchRepository(requireContext())))[MatchViewModel::class.java]
 
         setupUI()
         return binding.root
@@ -44,6 +49,19 @@ class ProblemSubmissionFragment : Fragment() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.categoryDropdown.adapter = adapter
         binding.categoryDropdown.setSelection(0)
+
+        // Populate tags (industries) from companies.csv
+        val repository = FakeMatchRepository(requireContext())
+        val tags = repository.getAllCompanies()
+            .map { it.industry }
+            .distinct()
+
+        tags.forEach { tagText ->
+            val chip = Chip(requireContext())
+            chip.text = tagText
+            chip.isCheckable = true
+            binding.tagChipGroup.addView(chip)
+        }
 
         // Add tags as chips dynamically if needed, or ensure they are defined in the layout.
         // If your layout already has chips, skip adding them here.

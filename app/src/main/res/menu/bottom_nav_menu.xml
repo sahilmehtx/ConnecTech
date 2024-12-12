@@ -16,7 +16,7 @@
         android:icon="@drawable/ic_settings" />
 
     <item
-        android:id="@+id/selectedCompaniesFragment"
+        android:id="@+id/companyListFragment"
         android:title="My Companies"
         android:icon="@drawable/ic_companies" />
 </menu>
