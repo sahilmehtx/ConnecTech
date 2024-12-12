@@ -25,7 +25,7 @@ class ConnecTechApp : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.loginFragment, R.id.registerFragment, R.id.landingPage -> {
+                R.id.loginFragment, R.id.registerFragment, R.id.landingPage, R.id.forgotPasswordFragment-> {
                     bottomNav.visibility = View.GONE
                 }
                 else -> {
