@@ -67,12 +67,16 @@ class SettingsFragment : Fragment() {
         }
 
         binding.btnaboutus.setOnClickListener {
-            Toast.makeText(requireContext(), "About us Clicked", Toast.LENGTH_SHORT).show()
+            aboutUS()
         }
 
         binding.btnLogout.setOnClickListener {
             handleLogout()
         }
+    }
+
+    private fun aboutUS() {
+        //findNavController().navigate(R.id.action_settingsFragment_to_profileFragment)
     }
 
     private fun handleLogout() {
@@ -82,7 +86,6 @@ class SettingsFragment : Fragment() {
     }
 
     private fun observeLogoutResult() {
-        // If logout had async logic, observe here.
     }
 
     override fun onDestroyView() {

@@ -33,7 +33,8 @@ class CompanyListFragment : Fragment() {
                 deleteCompany(company)
             },
             onNotifyClicked = { company ->
-                Toast.makeText(requireContext(), "Notify clicked for ${company.name}", Toast.LENGTH_SHORT).show()
+                notifyCompany(company)
+                //Toast.makeText(requireContext(), "Notify clicked for ${company.name}", Toast.LENGTH_SHORT).show()
             }
         )
 
@@ -58,6 +59,11 @@ class CompanyListFragment : Fragment() {
             .setNegativeButton("No", null)
             .create()
             .show()
+    }
+
+    private fun notifyCompany(company: Match) {
+        //findNavController().navigate(R.id.action_companyListFragment_to_inboxFragment)
+
     }
 
     override fun onDestroyView() {
