@@ -1,52 +1,101 @@
 package com.cs407.connectech.ui.main
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.room.Room
+import com.cs407.connectech.R
+import com.cs407.connectech.data.AppDatabase
 import com.cs407.connectech.databinding.FragmentProblemSubmissionBinding
-import com.cs407.connectech.viewmodel.AuthViewModel  // Existing ViewModel to use for lifecycle management
+import com.cs407.connectech.repository.FakeAuthRepository
+import com.cs407.connectech.viewmodel.AuthViewModel
+import com.cs407.connectech.viewmodel.AuthViewModelFactory
+import com.google.android.material.chip.Chip
 
 class ProblemSubmissionFragment : Fragment() {
 
     private var _binding: FragmentProblemSubmissionBinding? = null
     private val binding get() = _binding!!
-    private lateinit var authViewModel: AuthViewModel  // Reuse `AuthViewModel` to manage data operations
+    private lateinit var authViewModel: AuthViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View {
         _binding = FragmentProblemSubmissionBinding.inflate(inflater, container, false)
 
-        // Initialize ViewModel
-        authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        val db = Room.databaseBuilder(requireContext(), AppDatabase::class.java, "app_db").build()
+        val authRepo = FakeAuthRepository(db.userDao())
+        val factory = AuthViewModelFactory(authRepo)
+        authViewModel = ViewModelProvider(this, factory)[AuthViewModel::class.java]
 
         setupUI()
         return binding.root
     }
 
     private fun setupUI() {
-        // Set up the "Submit" button click listener
+        val categories = listOf(
+            "Large Business", "Medium Business", "Small Business", "Enterprise",
+            "Private Project", "Startup", "Other", "None"
+        )
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.categoryDropdown.adapter = adapter
+        binding.categoryDropdown.setSelection(0)
+
+        // Add tags as chips dynamically if needed, or ensure they are defined in the layout.
+        // If your layout already has chips, skip adding them here.
+        // Example:
+        /*
+        val tags = listOf("AI/ML", "Data Science", "Web Dev", "Mobile Dev", "Cloud Computing", "Blockchain", "Cybersecurity")
+        tags.forEach { tagText ->
+            val chip = Chip(requireContext())
+            chip.text = tagText
+            chip.isCheckable = true
+            binding.tagChipGroup.addView(chip)
+        }
+        */
+
         binding.submitButton.setOnClickListener {
-            val projectDetails = binding.projectDetailsInput.text.toString()  // Retrieve project details from input
-            val category = binding.categoryDropdown.selectedItem.toString()   // Get selected category from dropdown
+            val problemDetails = binding.projectDetailsInput.text?.toString()?.trim() ?: ""
+            val category = binding.categoryDropdown.selectedItem?.toString()?.trim() ?: ""
 
-            // Check if inputs are valid
-            if (projectDetails.isNotBlank() && category.isNotEmpty()) {
-                // Call ViewModel function to submit problem
-                // **Function Needed in AuthViewModel**: `submitProblem(projectDetails: String, category: String)`
-                // **Integrates With**: `ProblemRepository` to send data to backend
-                // **Expected Outcome**: This function should send project details to backend for saving
-                authViewModel.submitProblem(projectDetails, category)
-
-                // Display success message
-                Toast.makeText(context, "Problem submitted successfully!", Toast.LENGTH_SHORT).show()
+            val selectedChipId = binding.tagChipGroup.checkedChipId
+            val selectedTag = if (selectedChipId != View.NO_ID) {
+                binding.tagChipGroup.findViewById<Chip>(selectedChipId)?.text?.toString()?.trim() ?: ""
             } else {
-                Toast.makeText(context, "Please fill in all required fields.", Toast.LENGTH_SHORT).show()
+                ""
+            }
+
+            Log.d("ProblemSubmission", "Problem Details: '$problemDetails', Category: '$category', Selected Tag: '$selectedTag'")
+
+            when {
+                problemDetails.isEmpty() -> binding.projectDetailsInput.error = "Please enter project details."
+                category.isEmpty() -> Toast.makeText(context, "Please select a category.", Toast.LENGTH_SHORT).show()
+                selectedTag.isEmpty() -> Toast.makeText(context, "Please select a tag.", Toast.LENGTH_SHORT).show()
+                else -> submitProblem(problemDetails, category, selectedTag)
+            }
+        }
+    }
+
+    private fun submitProblem(problemDetails: String, category: String, selectedTag: String) {
+        binding.progressBar.visibility = View.VISIBLE
+        binding.submitButton.isEnabled = false
+
+        authViewModel.submitProblem(problemDetails, category)
+        authViewModel.problemSubmissionResult.observe(viewLifecycleOwner) { result ->
+            binding.submitButton.isEnabled = true
+            binding.progressBar.visibility = View.GONE
+
+            result.onSuccess {
+                val action = ProblemSubmissionFragmentDirections.actionProblemSubmissionFragmentToBestMatchesFragment(selectedTag, category)
+                findNavController().navigate(action)
+                Toast.makeText(context, "Problem submitted successfully!", Toast.LENGTH_SHORT).show()
+            }.onFailure { exception ->
+                Toast.makeText(context, "Submission failed: ${exception.message}", Toast.LENGTH_SHORT).show()
+                Log.e("ProblemSubmission", "Submission failed: ${exception.message}")
             }
         }
     }
